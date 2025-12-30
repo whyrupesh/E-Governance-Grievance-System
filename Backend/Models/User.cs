@@ -16,4 +16,8 @@ public class User
 
     public bool IsActive { get; set; } = true;
 
+    
+    // Officer only
+    public int? DepartmentId { get; set; }
+
 }

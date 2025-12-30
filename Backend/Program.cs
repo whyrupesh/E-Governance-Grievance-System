@@ -14,6 +14,9 @@ builder.Services.AddControllers();
 // Auth Service
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<JwtTokenHelper>();
+builder.Services.AddScoped<IGrievanceService,GrievanceService>();
+builder.Services.AddScoped<IOfficerService, OfficerService>();
+
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
