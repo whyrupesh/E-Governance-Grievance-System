@@ -1,0 +1,114 @@
+####################################
+# OS / Editor
+####################################
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.log
+.vscode/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+####################################
+# Node / Angular
+####################################
+node_modules/
+dist/
+out/
+.angular/
+.cache/
+.tmp/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.env
+.env.local
+.env.development
+.env.production
+
+####################################
+# Angular build output
+####################################
+/frontend/dist/
+/client/dist/
+
+####################################
+# .NET / Visual Studio
+####################################
+bin/
+obj/
+[Bb]in/
+[Oo]bj/
+
+*.dll
+*.exe
+*.pdb
+*.cache
+*.nupkg
+*.snupkg
+*.deps.json
+*.runtimeconfig.json
+
+####################################
+# .NET Core / ASP.NET
+####################################
+appsettings.Development.json
+appsettings.Local.json
+secrets.json
+
+####################################
+# Rider / VS Code / Visual Studio
+####################################
+.vs/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+
+####################################
+# Test results
+####################################
+TestResults/
+coverage/
+*.trx
+*.coverage
+
+####################################
+# Logs
+####################################
+logs/
+*.log
+
+####################################
+# Publish output
+####################################
+publish/
+wwwroot/
+
+####################################
+# Docker
+####################################
+docker-compose.override.yml
+.env.docker
+
+####################################
+# Certificates / keys
+####################################
+*.pfx
+*.pem
+*.key
+
+####################################
+# Misc
+####################################
+*.zip
+*.tar
+*.gz
+*.bak
+*.tmp
