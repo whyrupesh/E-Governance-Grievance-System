@@ -1,0 +1,32 @@
+using Backend.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Backend.Controllers;
+
+[ApiController]
+[Route("api/supervisor")]
+[Authorize(Roles = "Supervisor")]
+public class SupervisorController : ControllerBase
+{
+    private readonly ISupervisorService _supervisorService;
+
+    public SupervisorController(ISupervisorService supervisorService)
+    {
+        _supervisorService = supervisorService;
+    }
+
+    [HttpGet("overdue")]
+    public async Task<IActionResult> OverdueGrievances([FromQuery] int days = 7)
+    {
+        var result = await _supervisorService.GetOverdueGrievancesAsync(days);
+        return Ok(result);
+    }
+
+    [HttpPost("escalate/{id}")]
+    public async Task<IActionResult> Escalate(int id)
+    {
+        await _supervisorService.EscalateAsync(id);
+        return NoContent();
+    }
+}

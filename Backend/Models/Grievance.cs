@@ -26,4 +26,9 @@ public class Grievance
     public DateTime? ResolvedAt { get; set; }
 
     public string? ResolutionRemarks { get; set; }
+
+
+    // Escalation
+    public bool IsEscalated { get; set; } = false;
+    public DateTime? EscalatedAt { get; set; }
 }
