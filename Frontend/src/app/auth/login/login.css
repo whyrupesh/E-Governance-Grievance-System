@@ -1,0 +1,19 @@
+.auth-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.auth-card {
+  width: 400px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.switch-link {
+  margin-top: 10px;
+  text-align: center;
+}

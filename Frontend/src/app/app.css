@@ -1,0 +1,15 @@
+.layout-container {
+  height: 100vh;
+}
+
+mat-sidenav {
+  width: 220px;
+  background: #1f2937;
+  color: white;
+}
+
+.content {
+  padding: 20px;
+  background-color: #f5f7fa;
+  min-height: calc(100vh - 64px);
+}

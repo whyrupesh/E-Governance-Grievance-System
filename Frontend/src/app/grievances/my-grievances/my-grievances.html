@@ -1,0 +1,29 @@
+<mat-card>
+  <mat-card-title>My Grievances</mat-card-title>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Category</th>
+        <th>Status</th>
+        <th>Created</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      @for (g of grievances; track g.id) {
+        <tr>
+          <td>{{ g.grievanceNumber }}</td>
+          <td>{{ g.category }}</td>
+          <td>
+            <span [ngClass]="g.status.toLowerCase()">
+              {{ g.status }}
+            </span>
+          </td>
+          <td>{{ g.createdAt | date }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</mat-card>

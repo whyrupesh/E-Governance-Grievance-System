@@ -8,6 +8,6 @@ public class GrievanceResponseDto
     public string GrievanceNumber { get; set; } = null!;
     public string Category { get; set; } = null!;
     public string Department { get; set; } = null!;
-    public GrievanceStatus Status { get; set; }
+    public string Status { get; set; } = "";
     public DateTime CreatedAt { get; set; }
 }

@@ -1,0 +1,21 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { CreateGrievanceRequest, Grievance } from '../../shared/models/grievance.model';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class GrievanceService {
+
+  private readonly API_URL = 'http://localhost:5280/api/grievances';
+
+  constructor(private http: HttpClient) {}
+
+  createGrievance(data: CreateGrievanceRequest) {
+    return this.http.post(this.API_URL, data);
+  }
+
+  getMyGrievances() {
+    return this.http.get<Grievance[]>(`${this.API_URL}/my`);
+  }
+}

@@ -43,7 +43,7 @@ public class GrievanceService : IGrievanceService
             GrievanceNumber = grievance.GrievanceNumber,
             Category = category.Name,
             Department = category.Department.Name,
-            Status = grievance.Status,
+            Status = grievance.Status.ToString(),
             CreatedAt = grievance.CreatedAt
         };
     }
@@ -61,7 +61,7 @@ public class GrievanceService : IGrievanceService
                 GrievanceNumber = g.GrievanceNumber,
                 Category = g.Category.Name,
                 Department = g.Department.Name,
-                Status = g.Status,
+                Status = g.Status.ToString(),
                 CreatedAt = g.CreatedAt
             })
             .ToListAsync();

@@ -1,0 +1,48 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { tap } from 'rxjs/operators';
+import { AuthResponse, LoginRequest, RegisterRequest } from '../../shared/models/auth.model';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthService {
+
+  private readonly API_URL = 'http://localhost:5280/api/auth'; 
+  // ⚠️ match your backend port
+
+  constructor(private http: HttpClient) {}
+
+  login(data: LoginRequest) {
+    return this.http.post<AuthResponse>(`${this.API_URL}/login`, data)
+      .pipe(
+        tap(res => this.storeAuth(res))
+      );
+  }
+
+  register(data: RegisterRequest) {
+    return this.http.post(`${this.API_URL}/register`, data);
+  }
+
+  private storeAuth(res: AuthResponse) {
+    localStorage.setItem('token', res.token);
+    localStorage.setItem('role', res.role);
+    localStorage.setItem('user', JSON.stringify(res));
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem('token');
+  }
+
+  getRole(): string | null {
+    return localStorage.getItem('role');
+  }
+
+  logout() {
+    localStorage.clear();
+  }
+
+  isLoggedIn(): boolean {
+    return !!this.getToken();
+  }
+}

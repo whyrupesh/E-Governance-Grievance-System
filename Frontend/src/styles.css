@@ -1,0 +1,10 @@
+/* You can add global styles to this file, and also import other style files */
+.layout-container {
+  height: 100vh;
+}
+
+.content {
+  padding: 20px;
+  background: #f5f7fa;
+  min-height: 100%;
+}

@@ -1,0 +1,50 @@
+<mat-card>
+  <mat-card-title>Assigned Grievances</mat-card-title>
+
+  <table class="table">
+    <tr>
+      <th>Grievance #</th>
+      <th>Citizen</th>
+      <th>Category</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+
+    <tr *ngFor="let g of grievances">
+      <td>{{ g.grievanceNumber }}</td>
+      <td>{{ g.citizenName }}</td>
+      <td>{{ g.category }}</td>
+      <td>{{ g.status }}</td>
+      <td>
+        <button mat-button color="primary" (click)="select(g)">
+          Update
+        </button>
+      </td>
+    </tr>
+  </table>
+</mat-card>
+
+<mat-card *ngIf="selected">
+  <mat-card-title>Update Grievance</mat-card-title>
+
+  <p><strong>Description:</strong> {{ selected.description }}</p>
+
+  <form [formGroup]="form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Status</mat-label>
+      <mat-select formControlName="status">
+        <mat-option value="InReview">In Review</mat-option>
+        <mat-option value="Resolved">Resolved</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Remarks</mat-label>
+      <textarea matInput rows="4" formControlName="remarks"></textarea>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" (click)="submit()">
+      Save
+    </button>
+  </form>
+</mat-card>
