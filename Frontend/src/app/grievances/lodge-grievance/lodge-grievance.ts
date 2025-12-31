@@ -8,6 +8,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { GrievanceService } from '../../core/services/grievance.service';
 import { CommonModule } from '@angular/common';
 
+import { MatIconModule } from '@angular/material/icon';
+import { RouterModule } from '@angular/router';
+
 @Component({
   selector: 'app-lodge-grievance',
   standalone: true,
@@ -18,9 +21,12 @@ import { CommonModule } from '@angular/common';
     MatInputModule,
     MatSelectModule,
     MatButtonModule,
-    CommonModule
+    CommonModule,
+    MatIconModule,
+    RouterModule
   ],
-  templateUrl: './lodge-grievance.html'
+  templateUrl: './lodge-grievance.html',
+  styleUrls: ['./lodge-grievance.css']
 })
 export class LodgeGrievanceComponent {
 

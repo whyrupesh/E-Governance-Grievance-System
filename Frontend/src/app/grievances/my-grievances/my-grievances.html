@@ -1,29 +1,50 @@
-<mat-card>
-  <mat-card-title>My Grievances</mat-card-title>
+<div class="grievance-container animate-fade-in">
 
-  <table class="table">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Category</th>
-        <th>Status</th>
-        <th>Created</th>
-      </tr>
-    </thead>
+  <div class="page-header">
+    <h2 class="page-title gradient-text">My Grievances</h2>
+    <p class="page-subtitle">Track and manage your submitted complaints</p>
+  </div>
 
-    <tbody>
-      @for (g of grievances; track g.id) {
+  <div class="glass-panel table-container">
+    <table class="premium-table">
+      <thead>
         <tr>
-          <td>{{ g.grievanceNumber }}</td>
-          <td>{{ g.category }}</td>
+          <th>ID</th>
+          <th>Category</th>
+          <th>Status</th>
+          <th>Submitted On</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (g of grievances; track g.id) {
+        <tr>
+          <td class="id-cell">#{{ g.grievanceNumber }}</td>
+          <td class="category-cell">{{ g.category }}</td>
           <td>
-            <span [ngClass]="g.status.toLowerCase()">
+            <span class="status-chip {{ g.status.toLowerCase() }}">
               {{ g.status }}
             </span>
           </td>
-          <td>{{ g.createdAt | date }}</td>
+          <td class="date-cell">{{ g.createdAt | date:'mediumDate' }}</td>
+          <td>
+            <button mat-icon-button color="primary" class="action-btn">
+              <mat-icon>visibility</mat-icon>
+            </button>
+          </td>
         </tr>
-      }
-    </tbody>
-  </table>
-</mat-card>
+        }
+        @if (grievances.length === 0) {
+        <tr class="empty-row">
+          <td colspan="5">
+            <div class="empty-state">
+              <mat-icon>inbox</mat-icon>
+              <p>No grievances found. Lodge one to get started.</p>
+            </div>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

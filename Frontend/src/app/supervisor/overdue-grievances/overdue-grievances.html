@@ -1,0 +1,37 @@
+<p>overdue-grievances works!</p>
+<mat-card>
+  <mat-card-title>Overdue Grievances</mat-card-title>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Grievance #</th>
+        <th>Department</th>
+        <th>Category</th>
+        <th>Status</th>
+        <th>Days Pending</th>
+        <th>Escalated</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      @for (g of grievances; track g.grievanceNumber) {
+        <tr>
+          <td>{{ g.grievanceNumber }}</td>
+          <td>{{ g.department }}</td>
+          <td>{{ g.category }}</td>
+          <td>{{ g.status }}</td>
+          <td>{{ g.daysPending }}</td>
+          <td>
+            <span *ngIf="g.isEscalated" class="badge danger">
+              Yes
+            </span>
+            <span *ngIf="!g.isEscalated" class="badge success">
+              No
+            </span>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</mat-card>

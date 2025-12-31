@@ -1,31 +1,40 @@
-<div class="auth-container">
-  <mat-card class="auth-card">
-    <mat-card-title>Register</mat-card-title>
+<div class="auth-wrapper">
+  <div class="auth-background"></div>
 
-    <form [formGroup]="registerForm">
-      <mat-form-field appearance="outline" class="full-width">
+  <div class="auth-container glass-panel animate-fade-in">
+    <div class="auth-header">
+      <mat-icon class="auth-icon">person_add</mat-icon>
+      <h2 class="auth-title">Create Account</h2>
+      <p class="auth-subtitle">Join the E-Governance platform today</p>
+    </div>
+
+    <form [formGroup]="registerForm" class="auth-form">
+      <mat-form-field appearance="outline" class="custom-field">
         <mat-label>Full Name</mat-label>
-        <input matInput formControlName="fullName" />
+        <mat-icon matPrefix>badge</mat-icon>
+        <input matInput formControlName="fullName" placeholder="Enter your full name" />
       </mat-form-field>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Email</mat-label>
-        <input matInput formControlName="email" />
+      <mat-form-field appearance="outline" class="custom-field">
+        <mat-label>Email Address</mat-label>
+        <mat-icon matPrefix>email</mat-icon>
+        <input matInput formControlName="email" placeholder="Enter your email" />
       </mat-form-field>
 
-      <mat-form-field appearance="outline" class="full-width">
+      <mat-form-field appearance="outline" class="custom-field">
         <mat-label>Password</mat-label>
-        <input matInput type="password" formControlName="password" />
+        <mat-icon matPrefix>lock</mat-icon>
+        <input matInput type="password" formControlName="password" placeholder="Create a password" />
       </mat-form-field>
 
-      <button mat-raised-button color="primary" class="full-width" (click)="onSubmit()">
-        Register
+      <button mat-flat-button color="primary" class="auth-btn" (click)="onSubmit()">
+        Create Account
       </button>
     </form>
 
-    <p class="switch-link">
-      Already have an account?
-      <a routerLink="/login">Login</a>
-    </p>
-  </mat-card>
+    <div class="auth-footer">
+      <p>Already have an account?</p>
+      <a routerLink="/login" class="link-btn">Sign in instead</a>
+    </div>
+  </div>
 </div>

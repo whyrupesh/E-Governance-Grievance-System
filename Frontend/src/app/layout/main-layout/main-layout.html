@@ -1,0 +1,92 @@
+<mat-sidenav-container class="container">
+
+  <!-- SIDEBAR -->
+  <mat-sidenav mode="side" opened class="sidenav">
+    
+    <div class="brand-header">
+      <mat-icon class="brand-logo">verified_user</mat-icon>
+      <h3 class="app-title">CivicConnect</h3>
+    </div>
+
+    <!-- User Profile Section -->
+    <div class="user-profile-section">
+      <div class="user-avatar">
+        {{ currentUser?.username?.charAt(0) | uppercase }}
+      </div>
+      <span class="user-name">Welcome, {{ currentUser?.username || 'User' }}</span>
+      <span class="user-role">{{ getRoleDisplay() }}</span>
+    </div>
+
+    <mat-nav-list>
+      <!-- Citizen -->
+      @if (authService.hasRole('Citizen')) {
+        <a mat-list-item routerLink="/grievances" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: false}">
+          <mat-icon matListItemIcon>dashboard</mat-icon>
+          <span matListItemTitle>My Grievances</span>
+        </a>
+        <a mat-list-item routerLink="/grievances/new" routerLinkActive="active-link">
+          <mat-icon matListItemIcon>add_circle_outline</mat-icon>
+          <span matListItemTitle>Lodge Grievance</span>
+        </a>
+      }
+
+      <!-- Officer -->
+      @if (authService.hasRole('Officer')) {
+        <a mat-list-item routerLink="/officer" routerLinkActive="active-link">
+          <mat-icon matListItemIcon>assignment_ind</mat-icon>
+          <span matListItemTitle>Officer Dashboard</span>
+        </a>
+      }
+
+      <!-- Supervisor -->
+      @if (authService.hasRole('Supervisor')) {
+        <a mat-list-item routerLink="/supervisor" routerLinkActive="active-link">
+          <mat-icon matListItemIcon>supervisor_account</mat-icon>
+          <span matListItemTitle>Supervisor Panel</span>
+        </a>
+      }
+
+      <!-- Admin -->
+      @if (authService.hasRole('Admin')) {
+        <a mat-list-item routerLink="/admin/departments" routerLinkActive="active-link">
+          <mat-icon matListItemIcon>domain</mat-icon>
+          <span matListItemTitle>Departments</span>
+        </a>
+        <a mat-list-item routerLink="/admin/categories" routerLinkActive="active-link">
+          <mat-icon matListItemIcon>category</mat-icon>
+          <span matListItemTitle>Categories</span>
+        </a>
+        <a mat-list-item routerLink="/admin/officers" routerLinkActive="active-link">
+          <mat-icon matListItemIcon>badge</mat-icon>
+          <span matListItemTitle>Officers</span>
+        </a>
+        <a mat-list-item routerLink="/admin/reports" routerLinkActive="active-link">
+          <mat-icon matListItemIcon>assessment</mat-icon>
+          <span matListItemTitle>Reports</span>
+        </a>
+      }
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <!-- MAIN CONTENT -->
+  <mat-sidenav-content>
+
+    <!-- TOP NAV -->
+    <mat-toolbar class="main-toolbar">
+      <span class="page-title">Grievance Redressal System</span>
+      <span class="spacer"></span>
+
+      <button mat-button class="logout-btn" (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        Logout
+      </button>
+    </mat-toolbar>
+
+    <!-- PAGE CONTENT -->
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+
+  </mat-sidenav-content>
+
+</mat-sidenav-container>

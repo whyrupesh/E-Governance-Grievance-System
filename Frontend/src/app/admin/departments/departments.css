@@ -1,0 +1,99 @@
+.admin-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.page-header {
+    margin-bottom: 24px;
+}
+
+.page-title {
+    font-size: 28px;
+    margin: 0 0 8px;
+}
+
+.page-subtitle {
+    color: var(--text-secondary);
+    font-size: 15px;
+    margin: 0;
+}
+
+.split-layout {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 24px;
+}
+
+@media (max-width: 768px) {
+    .split-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Panel Styles */
+.list-panel,
+.form-panel {
+    padding: 24px;
+    background: var(--surface-card);
+    height: fit-content;
+}
+
+.panel-header {
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding-bottom: 12px;
+}
+
+.panel-header h3 {
+    margin: 0;
+    color: var(--primary-dark);
+    font-size: 1.1rem;
+}
+
+/* List Items */
+.list-item {
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+.list-item:hover {
+    background: rgba(0, 0, 0, 0.02);
+}
+
+.item-icon {
+    color: var(--primary-color);
+    opacity: 0.7;
+}
+
+.item-title {
+    font-weight: 500;
+    color: var(--text-main);
+}
+
+.item-subtitle {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+}
+
+/* Form */
+.admin-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.custom-field {
+    width: 100%;
+}
+
+.submit-btn {
+    height: 48px;
+    margin-top: 8px;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 24px;
+    color: var(--text-secondary);
+    font-style: italic;
+}

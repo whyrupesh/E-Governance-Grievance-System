@@ -1,26 +1,29 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormBuilder, Validators, ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../core/services/auth.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
   standalone: true,
   imports: [
+    CommonModule,
     ReactiveFormsModule,
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    RouterModule
+    RouterModule,
+    MatIconModule
   ],
   templateUrl: './register.html',
-  styleUrl: './register.css'
+  styleUrls: ['./register.css']
 })
 export class RegisterComponent {
 
@@ -39,11 +42,15 @@ export class RegisterComponent {
   }
 
   onSubmit() {
-    if (this.registerForm.invalid) return;
-
-    this.authService.register(this.registerForm.value)
-      .subscribe(() => {
-        this.router.navigate(['/login']);
-      });
+    if (this.registerForm.valid) {
+      this.authService.register(this.registerForm.value)
+        .subscribe({
+          next: () => {
+            alert('Registration Successful');
+            this.router.navigate(['/login']);
+          },
+          error: err => alert('Registration Failed')
+        });
+    }
   }
 }

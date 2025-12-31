@@ -9,7 +9,6 @@ import { AuthResponse, LoginRequest, RegisterRequest } from '../../shared/models
 export class AuthService {
 
   private readonly API_URL = 'http://localhost:5280/api/auth'; 
-  // ⚠️ match your backend port
 
   constructor(private http: HttpClient) {}
 
@@ -37,6 +36,15 @@ export class AuthService {
   getRole(): string | null {
     return localStorage.getItem('role');
   }
+
+  getUser(): any {
+    const userStr = localStorage.getItem('user');
+    return userStr ? JSON.parse(userStr) : null;
+  }
+
+  hasRole(role: string): boolean {
+  return this.getRole() === role;
+}
 
   logout() {
     localStorage.clear();

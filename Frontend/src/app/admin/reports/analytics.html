@@ -1,0 +1,54 @@
+<div class="analytics-container animate-fade-in">
+
+    <div class="page-header">
+        <h2 class="page-title gradient-text">Reports & Analytics</h2>
+        <p class="page-subtitle">Platform performance overview</p>
+    </div>
+
+    <!-- Status Cards -->
+    <div class="stats-grid">
+        @for (stat of statusCounts; track stat.status) {
+        <div class="stat-card glass-panel" [ngClass]="stat.status.toLowerCase()">
+            <div class="stat-icon">
+                <mat-icon>{{ getIcon(stat.status) }}</mat-icon>
+            </div>
+            <div class="stat-info">
+                <span class="stat-value">{{ stat.count }}</span>
+                <span class="stat-label">{{ stat.status }}</span>
+            </div>
+        </div>
+        }
+    </div>
+
+    <!-- Department Performance -->
+    <div class="glass-panel performance-section">
+        <div class="panel-header">
+            <h3>Department Performance</h3>
+        </div>
+        <div class="table-container">
+            <table class="premium-table">
+                <thead>
+                    <tr>
+                        <th>Department</th>
+                        <th>Total Grievances</th>
+                        <th>Resolved</th>
+                        <th>Pending</th>
+                        <th>Avg Resolution (Days)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (d of deptPerformance; track d.departmentName) {
+                    <tr>
+                        <td class="dept-name">{{ d.departmentName }}</td>
+                        <td>{{ d.total }}</td>
+                        <td class="text-success">{{ d.resolved }}</td>
+                        <td class="text-warning">{{ d.pending }}</td>
+                        <td>{{ d.avgResolutionTimeDays | number:'1.1-2' }}</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

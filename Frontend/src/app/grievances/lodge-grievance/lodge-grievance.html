@@ -1,23 +1,42 @@
-<mat-card>
-  <mat-card-title>Lodge Grievance</mat-card-title>
+<div class="lodge-container animate-fade-in">
 
-  <form [formGroup]="form">
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Category</mat-label>
-      <mat-select formControlName="categoryId">
-        <mat-option *ngFor="let c of categories" [value]="c.id">
-          {{ c.name }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+  <div class="page-header">
+    <h2 class="page-title gradient-text">Lodge a Grievance</h2>
+    <p class="page-subtitle">Submit your complaint to the relevant department</p>
+  </div>
 
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Description</mat-label>
-      <textarea matInput rows="5" formControlName="description"></textarea>
-    </mat-form-field>
+  <div class="glass-panel form-card">
+    <form [formGroup]="form">
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="custom-field">
+          <mat-label>Select Category</mat-label>
+          <mat-icon matPrefix>category</mat-icon>
+          <mat-select formControlName="categoryId" placeholder="Choose a category">
+            <mat-option *ngFor="let c of categories" [value]="c.id">
+              {{ c.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="form.get('categoryId')?.hasError('required')">Category is required</mat-error>
+        </mat-form-field>
+      </div>
 
-    <button mat-raised-button color="primary" (click)="submit()">
-      Submit Grievance
-    </button>
-  </form>
-</mat-card>
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="custom-field">
+          <mat-label>Description</mat-label>
+          <mat-icon matPrefix class="textarea-icon">description</mat-icon>
+          <textarea matInput rows="6" formControlName="description"
+            placeholder="Describe your issue in detail..."></textarea>
+          <mat-error *ngIf="form.get('description')?.hasError('required')">Description is required</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-actions">
+        <button mat-stroked-button color="warn" class="cancel-btn" routerLink="/grievances">Cancel</button>
+        <button mat-flat-button color="primary" class="submit-btn" (click)="submit()">
+          <mat-icon>send</mat-icon>
+          Submit Grievance
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

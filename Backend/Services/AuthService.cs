@@ -54,6 +54,11 @@ public class AuthService : IAuthService
     {
         var user = await _context.Users.FirstOrDefaultAsync( u => u.Email == loginDto.Email && u.IsActive);
 
+        Console.WriteLine(user);
+
+        Console.WriteLine(PasswordHasher.Hash(loginDto.Password));
+        Console.WriteLine(user.PasswordHash);
+        
         if(user==null || !PasswordHasher.Verify(loginDto.Password, user.PasswordHash))
             throw new Exception("Invalid Credentials");
         

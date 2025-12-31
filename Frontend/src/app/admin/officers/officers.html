@@ -1,0 +1,75 @@
+<div class="admin-container animate-fade-in">
+
+  <div class="page-header">
+    <h2 class="page-title gradient-text">Manage Officers</h2>
+    <p class="page-subtitle">Register and view department officers</p>
+  </div>
+
+  <div class="split-layout">
+
+    <!-- Left: List -->
+    <div class="glass-panel list-panel">
+      <div class="panel-header">
+        <h3>Registered Officers</h3>
+      </div>
+      <mat-list>
+        @for (o of officers; track o.id) {
+        <mat-list-item class="list-item">
+          <mat-icon matListItemIcon class="item-icon">badge</mat-icon>
+          <div matListItemTitle class="item-title">{{ o.fullName }}</div>
+          <div matListItemLine class="item-subtitle">{{ o.email }} • {{ o.department }}</div>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        }
+        @if (officers.length === 0) {
+        <div class="empty-state">
+          <p>No officers found.</p>
+        </div>
+        }
+      </mat-list>
+    </div>
+
+    <!-- Right: Add Form -->
+    <div class="glass-panel form-panel">
+      <div class="panel-header">
+        <h3>Register New Officer</h3>
+      </div>
+
+      <form [formGroup]="form" class="admin-form">
+        <mat-form-field appearance="outline" class="custom-field">
+          <mat-label>Full Name</mat-label>
+          <mat-icon matPrefix>person</mat-icon>
+          <input matInput formControlName="fullName" placeholder="Officer Name" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="custom-field">
+          <mat-label>Email</mat-label>
+          <mat-icon matPrefix>email</mat-icon>
+          <input matInput formControlName="email" placeholder="Email Address" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="custom-field">
+          <mat-label>Password</mat-label>
+          <mat-icon matPrefix>lock</mat-icon>
+          <input matInput type="password" formControlName="password" placeholder="Set Password" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="custom-field">
+          <mat-label>Department</mat-label>
+          <mat-icon matPrefix>domain</mat-icon>
+          <mat-select formControlName="departmentId" placeholder="Assign Department">
+            @for (d of departments; track d.id) {
+            <mat-option [value]="d.id">{{ d.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <button mat-flat-button color="primary" class="submit-btn" (click)="add()">
+          <mat-icon>person_add</mat-icon>
+          Register Officer
+        </button>
+      </form>
+    </div>
+
+  </div>
+</div>

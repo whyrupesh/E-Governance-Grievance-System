@@ -1,0 +1,122 @@
+.grievance-container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.page-header {
+    margin-bottom: 24px;
+}
+
+.page-title {
+    font-size: 28px;
+    margin: 0 0 8px;
+}
+
+.page-subtitle {
+    color: var(--text-secondary);
+    font-size: 15px;
+    margin: 0;
+}
+
+.table-container {
+    overflow: hidden;
+    padding: 0;
+}
+
+.premium-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.premium-table th {
+    text-align: left;
+    padding: 16px 24px;
+    background: rgba(26, 35, 126, 0.03);
+    color: var(--primary-dark);
+    font-weight: 600;
+    font-size: 0.9rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.premium-table td {
+    padding: 16px 24px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+    color: var(--text-main);
+    font-size: 0.95rem;
+    transition: background 0.2s;
+}
+
+.premium-table tr:hover td {
+    background: rgba(0, 0, 0, 0.01);
+}
+
+.premium-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* Status Chips */
+.status-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+}
+
+.status-chip.pending {
+    background: rgba(255, 193, 7, 0.15);
+    color: #d4a017;
+}
+
+.status-chip.resolved {
+    background: rgba(76, 175, 80, 0.15);
+    color: #2e7d32;
+}
+
+.status-chip.closed {
+    background: rgba(158, 158, 158, 0.15);
+    color: #616161;
+}
+
+.id-cell {
+    font-family: 'Roboto Mono', monospace;
+    color: var(--text-secondary);
+}
+
+.category-cell {
+    font-weight: 500;
+}
+
+.date-cell {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.action-btn {
+    opacity: 0.7;
+}
+
+.action-btn:hover {
+    opacity: 1;
+}
+
+.empty-state {
+    padding: 48px;
+    text-align: center;
+    color: var(--text-secondary);
+}
+
+.empty-state mat-icon {
+    font-size: 48px;
+    height: 48px;
+    width: 48px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+}
+
+.empty-state p {
+    margin: 0;
+    font-size: 1rem;
+}

@@ -3,55 +3,104 @@ import { LoginComponent } from './auth/login/login';
 import { RegisterComponent } from './auth/register/register';
 import { AuthGuard } from './core/guards/auth.guard';
 import { RoleGuard } from './core/guards/role.guard';
+import { MainLayoutComponent } from './layout/main-layout/main-layout';
 
 export const routes: Routes = [
-    { path: 'login', component: LoginComponent },
-    { path: 'register', component: RegisterComponent },
 
-    {
+  // =====================
+  // PUBLIC ROUTES
+  // =====================
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+
+  // =====================
+  // PROTECTED ROUTES
+  // =====================
+  {
+    path: '',
+    component: MainLayoutComponent,
+    canActivate: [AuthGuard],
+    children: [
+
+      // -------- Citizen --------
+      {
         path: 'grievances',
-        canActivate: [AuthGuard, RoleGuard],
+        canActivate: [RoleGuard],
         data: { roles: ['Citizen'] },
         children: [
-            {
-                path: '',
-                loadComponent: () =>
-                    import('./grievances/my-grievances/my-grievances')
-                        .then(m => m.MyGrievancesComponent)
-            },
-            {
-                path: 'new',
-                loadComponent: () =>
-                    import('./grievances/lodge-grievance/lodge-grievance')
-                        .then(m => m.LodgeGrievanceComponent)
-            }
+          {
+            path: '',
+            loadComponent: () =>
+              import('./grievances/my-grievances/my-grievances')
+                .then(m => m.MyGrievancesComponent)
+          },
+          {
+            path: 'new',
+            loadComponent: () =>
+              import('./grievances/lodge-grievance/lodge-grievance')
+                .then(m => m.LodgeGrievanceComponent)
+          }
         ]
-    },
+      },
 
-    {
+      // -------- Officer --------
+      {
         path: 'officer',
-        canActivate: [AuthGuard, RoleGuard],
+        canActivate: [RoleGuard],
         data: { roles: ['Officer'] },
         loadComponent: () =>
-            import('./officer/assigned-grievances/assigned-grievances')
-                .then(m => m.AssignedGrievancesComponent)
-    },
+          import('./officer/assigned-grievances/assigned-grievances')
+            .then(m => m.AssignedGrievancesComponent)
+      },
 
-    // {
-    //     path: 'supervisor',
-    //     canActivate: [AuthGuard, RoleGuard],
-    //     data: { roles: ['Supervisor'] },
-    //     loadComponent: () =>
-    //         import('./supervisor/supervisor').then(m => m.SupervisorComponent)
-    // },
+      // -------- Supervisor --------
+      {
+        path: 'supervisor',
+        canActivate: [RoleGuard],
+        data: { roles: ['Supervisor'] },
+        loadComponent: () =>
+          import('./supervisor/overdue-grievances/overdue-grievances')
+            .then(m => m.OverdueGrievancesComponent)
+      },
 
-    // {
-    //     path: 'admin',
-    //     canActivate: [AuthGuard, RoleGuard],
-    //     data: { roles: ['Admin'] },
-    //     loadComponent: () =>
-    //         import('./admin/admin').then(m => m.AdminComponent)
-    // },
+      // -------- Admin --------
+      {
+        path: 'admin',
+        canActivate: [RoleGuard],
+        data: { roles: ['Admin'] },
+        children: [
+          {
+            path: 'departments',
+            loadComponent: () =>
+              import('./admin/departments/departments')
+                .then(m => m.DepartmentsComponent)
+          },
+          {
+            path: 'categories',
+            loadComponent: () =>
+              import('./admin/categories/categories')
+                .then(m => m.CategoriesComponent)
+          },
+          {
+            path: 'officers',
+            loadComponent: () =>
+              import('./admin/officers/officers')
+                .then(m => m.OfficersComponent)
+          },
+          {
+            path: 'reports',
+            loadComponent: () =>
+              import('./admin/reports/analytics')
+                .then(m => m.AnalyticsComponent)
+          }
+        ]
+      }
+    ]
+  },
 
-    { path: '', redirectTo: 'login', pathMatch: 'full' }
+  // =====================
+  // DEFAULT
+  // =====================
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '**', redirectTo: 'login' }
 ];

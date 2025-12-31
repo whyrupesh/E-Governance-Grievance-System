@@ -1,29 +1,33 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormBuilder, Validators, ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
+    CommonModule,
     ReactiveFormsModule,
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    RouterModule
+    RouterModule,
+    MatIconModule
   ],
   templateUrl: './login.html',
-  styleUrl: './login.css'
+  styleUrls: ['./login.css']
 })
 export class LoginComponent {
 
-  loginForm!: FormGroup;
+  loginForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
@@ -37,30 +41,18 @@ export class LoginComponent {
   }
 
   onSubmit() {
-    console.log("btn is pressed");
-    if (this.loginForm.invalid) return;
-
-    this.authService.login(this.loginForm.value)
-      .subscribe({
-        next: res => this.redirectByRole(res.role),
-        error: () => alert('Invalid email or password')
-      });
-  }
-
-  private redirectByRole(role: string) {
-    switch (role) {
-      case 'Citizen':
-        this.router.navigate(['/grievances']);
-        break;
-      case 'Officer':
-        this.router.navigate(['/officer']);
-        break;
-      case 'Supervisor':
-        this.router.navigate(['/supervisor']);
-        break;
-      case 'Admin':
-        this.router.navigate(['/admin']);
-        break;
+    if (this.loginForm.valid) {
+      this.authService.login(this.loginForm.value)
+        .subscribe({
+          next: () => {
+            const role = this.authService.getRole();
+            if (role === 'Admin') this.router.navigate(['/admin/departments']);
+            else if (role === 'Officer') this.router.navigate(['/officer']);
+            else if (role === 'Supervisor') this.router.navigate(['/supervisor']);
+            else this.router.navigate(['/grievances']);
+          },
+          error: err => alert('Login Failed')
+        });
     }
   }
 }

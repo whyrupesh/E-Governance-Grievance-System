@@ -9,6 +9,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { OfficerService } from '../../core/services/officer.service';
 import { OfficerGrievance } from '../../shared/models/officer-grievance.model';
 
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
+
 @Component({
   selector: 'app-assigned-grievances',
   standalone: true,
@@ -19,9 +22,12 @@ import { OfficerGrievance } from '../../shared/models/officer-grievance.model';
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    MatIconModule,
+    MatDividerModule
   ],
-  templateUrl: './assigned-grievances.html'
+  templateUrl: './assigned-grievances.html',
+  styleUrls: ['./assigned-grievances.css']
 })
 export class AssignedGrievancesComponent implements OnInit {
 

@@ -1,50 +1,102 @@
-<mat-card>
-  <mat-card-title>Assigned Grievances</mat-card-title>
+<div class="officer-container animate-fade-in">
 
-  <table class="table">
-    <tr>
-      <th>Grievance #</th>
-      <th>Citizen</th>
-      <th>Category</th>
-      <th>Status</th>
-      <th>Action</th>
-    </tr>
+  <div class="page-header">
+    <h2 class="page-title gradient-text">Assigned Grievances</h2>
+    <p class="page-subtitle">Manage and resolve citizen complaints</p>
+  </div>
 
-    <tr *ngFor="let g of grievances">
-      <td>{{ g.grievanceNumber }}</td>
-      <td>{{ g.citizenName }}</td>
-      <td>{{ g.category }}</td>
-      <td>{{ g.status }}</td>
-      <td>
-        <button mat-button color="primary" (click)="select(g)">
-          Update
+  <div class="dashboard-grid" [class.has-selection]="selected">
+
+    <!-- Left Panel: List -->
+    <div class="list-panel glass-panel">
+      <table class="premium-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Citizen</th>
+            <th>Category</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (g of grievances; track g.id) {
+          <tr [class.selected-row]="selected?.id === g.id">
+            <td class="id-cell">#{{ g.grievanceNumber }}</td>
+            <td class="citizen-cell">
+              <div class="citizen-info">
+                <mat-icon class="avatar-icon">account_circle</mat-icon>
+                <span>{{ g.citizenName }}</span>
+              </div>
+            </td>
+            <td>{{ g.category }}</td>
+            <td>
+              <span class="status-chip {{ g.status.toLowerCase() }}">
+                {{ g.status }}
+              </span>
+            </td>
+            <td>
+              <button mat-stroked-button color="primary" class="action-btn" (click)="select(g)">
+                Manage
+              </button>
+            </td>
+          </tr>
+          }
+          @if (grievances.length === 0) {
+          <tr class="empty-row">
+            <td colspan="5">
+              <div class="empty-state">
+                <mat-icon>assignment_turned_in</mat-icon>
+                <p>No active grievances assigned.</p>
+              </div>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Right Panel: Usage -->
+    @if (selected) {
+    <div class="detail-panel glass-panel animate-slide-in">
+      <div class="panel-header">
+        <h3>Update Status</h3>
+        <button mat-icon-button (click)="selected = undefined">
+          <mat-icon>close</mat-icon>
         </button>
-      </td>
-    </tr>
-  </table>
-</mat-card>
+      </div>
 
-<mat-card *ngIf="selected">
-  <mat-card-title>Update Grievance</mat-card-title>
+      <div class="grievance-summary">
+        <div class="summary-item">
+          <label>Description</label>
+          <p>{{ selected.description }}</p>
+        </div>
+      </div>
 
-  <p><strong>Description:</strong> {{ selected.description }}</p>
+      <mat-divider></mat-divider>
 
-  <form [formGroup]="form">
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Status</mat-label>
-      <mat-select formControlName="status">
-        <mat-option value="InReview">In Review</mat-option>
-        <mat-option value="Resolved">Resolved</mat-option>
-      </mat-select>
-    </mat-form-field>
+      <form [formGroup]="form" class="update-form">
+        <mat-form-field appearance="outline" class="custom-field">
+          <mat-label>New Status</mat-label>
+          <mat-select formControlName="status">
+            <mat-option value="InReview">In Review</mat-option>
+            <mat-option value="Resolved">Resolved</mat-option>
+          </mat-select>
+        </mat-form-field>
 
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Remarks</mat-label>
-      <textarea matInput rows="4" formControlName="remarks"></textarea>
-    </mat-form-field>
+        <mat-form-field appearance="outline" class="custom-field">
+          <mat-label>Officer Remarks</mat-label>
+          <textarea matInput rows="5" formControlName="remarks" placeholder="Enter resolution details..."></textarea>
+        </mat-form-field>
 
-    <button mat-raised-button color="primary" (click)="submit()">
-      Save
-    </button>
-  </form>
-</mat-card>
+        <div class="form-actions">
+          <button mat-flat-button color="primary" class="full-width-btn" (click)="submit()">
+            Update Status
+          </button>
+        </div>
+      </form>
+    </div>
+    }
+
+  </div>
+</div>

@@ -62,6 +62,23 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+// using (var scope = app.Services.CreateScope())
+// {
+//     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+//     await DbSeeder.SeedAsync(dbContext);
+// }
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+    await DbSeeder.ResetPasswordAsync(db, "admin@gov.in", "Admin@123");
+    await DbSeeder.ResetPasswordAsync(db, "officer@gov.in", "Officer@123");
+    await DbSeeder.ResetPasswordAsync(db, "supervisor@gov.in", "Supervisor@123");
+}
+
+
+
 app.UseHttpsRedirection();
 
 app.UseCors("AllowAngular");   

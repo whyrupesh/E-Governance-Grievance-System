@@ -1,0 +1,52 @@
+<div class="admin-container animate-fade-in">
+
+  <div class="page-header">
+    <h2 class="page-title gradient-text">Manage Departments</h2>
+    <p class="page-subtitle">Configure the organizational units</p>
+  </div>
+
+  <div class="split-layout">
+
+    <!-- Left: List -->
+    <div class="glass-panel list-panel">
+      <div class="panel-header">
+        <h3>Existing Departments</h3>
+      </div>
+      <mat-list>
+        @for (d of departments; track d.id) {
+        <mat-list-item class="list-item">
+          <mat-icon matListItemIcon class="item-icon">domain</mat-icon>
+          <span matListItemTitle class="item-title">{{ d.name }}</span>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        }
+        @if (departments.length === 0) {
+        <div class="empty-state">
+          <p>No departments found.</p>
+        </div>
+        }
+      </mat-list>
+    </div>
+
+    <!-- Right: Add Form -->
+    <div class="glass-panel form-panel">
+      <div class="panel-header">
+        <h3>Add New Department</h3>
+      </div>
+
+      <form class="admin-form">
+        <mat-form-field appearance="outline" class="custom-field">
+          <mat-label>Department Name</mat-label>
+          <mat-icon matPrefix>edit</mat-icon>
+          <input matInput [(ngModel)]="name" name="name" placeholder="E.g. Public Works" />
+        </mat-form-field>
+
+        <button mat-flat-button color="primary" class="submit-btn" (click)="add()" [disabled]="!name">
+          <mat-icon>add</mat-icon>
+          Create Department
+        </button>
+      </form>
+    </div>
+
+  </div>
+</div>
