@@ -7,6 +7,7 @@ public interface IGrievanceService
 {
     Task<GrievanceResponseDto> CreateAsync(int citizenId, CreateGrievanceDto dto);
     Task<IEnumerable<GrievanceResponseDto>> GetMyGrievancesAsync(int citizenId);
+    Task<GrievanceResponseDto?> GetMyGrievanceByIdAsync(int grievanceId, int citizenId);
 
     Task<IEnumerable<CategoryResponseDto>> GetAllCategories();
 }

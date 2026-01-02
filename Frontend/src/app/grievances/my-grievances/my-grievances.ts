@@ -4,6 +4,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { firstValueFrom } from 'rxjs';
+import { RouterLink } from '@angular/router';
+
 
 import { GrievanceService } from '../../core/services/grievance.service';
 import { Grievance } from '../../shared/models/grievance.model';
@@ -11,7 +13,7 @@ import { Grievance } from '../../shared/models/grievance.model';
 @Component({
   selector: 'app-my-grievances',
   standalone: true,
-  imports: [CommonModule, DatePipe, MatCardModule, MatIconModule, MatButtonModule],
+  imports: [CommonModule,RouterLink, DatePipe, MatCardModule, MatIconModule, MatButtonModule],
   templateUrl: './my-grievances.html',
   styleUrls: ['./my-grievances.css']
 })

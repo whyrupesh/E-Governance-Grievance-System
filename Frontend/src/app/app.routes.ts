@@ -42,6 +42,12 @@ export const routes: Routes = [
           }
         ]
       },
+      {
+        path: 'grievances/:id',
+        loadComponent: () =>
+          import('./grievances/my-grievance-detail/my-grievance-detail')
+            .then(m => m.MyGrievanceDetail)
+      },
 
       // -------- Officer --------
       {

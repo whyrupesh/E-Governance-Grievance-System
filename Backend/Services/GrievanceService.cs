@@ -63,10 +63,39 @@ public class GrievanceService : IGrievanceService
                 Category = g.Category.Name,
                 Department = g.Department.Name,
                 Status = g.Status.ToString(),
-                CreatedAt = g.CreatedAt
+                CreatedAt = g.CreatedAt,
+                Description = g.Description,
+                ResolvedAt = g.ResolvedAt,
+                ResolutionRemarks = g.ResolutionRemarks,
+                IsEscalated = g.IsEscalated,
+                EscalatedAt = g.EscalatedAt
             })
             .ToListAsync();
     }
+
+    public async Task<GrievanceResponseDto?> GetMyGrievanceByIdAsync(int grievanceId, int citizenId)
+{
+    return await _context.Grievances
+        .Where(g => g.Id == grievanceId && g.CitizenId == citizenId)
+        .Include(g => g.Category)
+        .Include(g => g.Department)
+        .Select(g => new GrievanceResponseDto
+        {
+            Id = g.Id,
+            GrievanceNumber = g.GrievanceNumber,
+            Category = g.Category.Name,
+            Department = g.Department.Name,
+            Status = g.Status.ToString(),
+            CreatedAt = g.CreatedAt,
+            Description = g.Description,
+            ResolvedAt = g.ResolvedAt,
+            ResolutionRemarks = g.ResolutionRemarks,
+            IsEscalated = g.IsEscalated,
+            EscalatedAt = g.EscalatedAt
+        })
+        .FirstOrDefaultAsync();
+}
+
 
 
     public async Task<IEnumerable<CategoryResponseDto>> GetAllCategories()

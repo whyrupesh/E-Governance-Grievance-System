@@ -10,5 +10,10 @@ export interface Grievance {
   department: string;
   status: string;
   createdAt: string;
+  description : string;
+  resolveAt : string;
+  resolutionRemarks : string;
+  isEscalated: boolean;
+  escalatedAt : string;
 }
 

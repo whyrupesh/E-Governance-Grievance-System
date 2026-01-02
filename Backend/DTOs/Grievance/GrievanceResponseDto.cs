@@ -10,4 +10,16 @@ public class GrievanceResponseDto
     public string Department { get; set; } = null!;
     public string Status { get; set; } = "";
     public DateTime CreatedAt { get; set; }
+
+    public string Description {get; set;} = "";
+
+    public DateTime? ResolvedAt { get; set; }
+
+    public string ResolutionRemarks { get; set; } = "";
+    
+    public bool IsEscalated { get; set; }
+
+    public DateTime? EscalatedAt {get; set;}
+
+
 }

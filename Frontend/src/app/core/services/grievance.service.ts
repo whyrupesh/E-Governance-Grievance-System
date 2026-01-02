@@ -20,7 +20,14 @@ export class GrievanceService {
     return this.http.get<Grievance[]>(`${this.API_URL}/my`);
   }
 
+  getGrievanceById(id: number) {
+    return this.http.get<Grievance>(`${this.API_URL}/${id}`);
+  }
+
+
   getCategories(){
     return this.http.get<Category[]>(`${this.API_URL}/categories`);
   }
+
+
 }

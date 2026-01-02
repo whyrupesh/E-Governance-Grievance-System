@@ -20,7 +20,7 @@
     <mat-nav-list>
       <!-- Citizen -->
       @if (authService.hasRole('Citizen')) {
-        <a mat-list-item routerLink="/grievances" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: false}">
+        <a mat-list-item routerLink="/grievances" routerLinkActive="active-link" >
           <mat-icon matListItemIcon>dashboard</mat-icon>
           <span matListItemTitle>My Grievances</span>
         </a>

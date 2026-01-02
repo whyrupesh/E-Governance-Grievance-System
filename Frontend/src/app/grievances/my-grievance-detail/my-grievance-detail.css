@@ -1,0 +1,133 @@
+/* Animation */
+.fade-in {
+  animation: fade 0.4s ease-in-out;
+}
+
+@keyframes fade {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Loading */
+.loading-box {
+  height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+}
+
+.spin {
+  font-size: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Layout */
+.detail-container {
+  max-width: 900px;
+  margin: auto;
+  padding: 24px;
+}
+
+.title {
+  font-size: 1.6rem;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+/* Info Card */
+.info-card {
+  padding: 20px;
+  margin-bottom: 32px;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.info-grid div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: #e3f2fd;
+  color: #1565c0;
+  font-weight: 600;
+  width: fit-content;
+}
+
+.description {
+  margin-top: 16px;
+}
+
+/* Timeline */
+.timeline-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  margin: 40px 0 30px;
+}
+
+.timeline-line {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: #e0e0e0;
+  z-index: 0;
+}
+
+.timeline-step {
+  position: relative;
+  text-align: center;
+  z-index: 1;
+  flex: 1;
+}
+
+.timeline-step span {
+  display: block;
+  margin-top: 8px;
+  font-size: 13px;
+  color: #777;
+}
+
+.timeline-step .dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #bdbdbd;
+  margin: auto;
+  border: 3px solid white;
+  box-shadow: 0 0 0 2px #e0e0e0;
+}
+
+/* ACTIVE */
+.timeline-step.active .dot {
+  background: #1976d2;
+  box-shadow: 0 0 0 3px rgba(25,118,210,.3);
+}
+
+.timeline-step.active span {
+  color: #1976d2;
+  font-weight: 600;
+}
+
+/* Resolution */
+.resolution-card {
+  background: #f1f8e9;
+  border-left: 5px solid #689f38;
+  padding: 16px;
+}

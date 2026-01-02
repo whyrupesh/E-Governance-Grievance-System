@@ -1,0 +1,67 @@
+@if (loading) {
+  <div class="loading-box">
+    <mat-icon class="spin">autorenew</mat-icon>
+    <p>Loading grievance...</p>
+  </div>
+}
+
+@if (grievance()) {
+  <div class="detail-container fade-in">
+
+    <h2 class="title">
+      Grievance #{{ grievance()!.grievanceNumber }}
+    </h2>
+
+    <mat-card class="info-card">
+      <div class="info-grid">
+        <div><strong>Category</strong><span>{{ grievance()!.category }}</span></div>
+        <div><strong>Department</strong><span>{{ grievance()!.department }}</span></div>
+        <div><strong>Status</strong><span class="badge">{{ grievance()!.status }}</span></div>
+        <div><strong>Submitted</strong><span>{{ grievance()!.createdAt | date:'medium' }}</span></div>
+      </div>
+
+      <div class="description">
+        <strong>Description</strong>
+        <p>{{ grievance()!.description }}</p>
+      </div>
+    </mat-card>
+
+    <!-- Timeline -->
+    <div class="timeline-wrapper">
+      <div class="timeline-line"></div>
+
+      <div class="timeline-step" [class.active]="isReached('Submitted')">
+        <div class="dot"></div>
+        <span>Submitted</span>
+      </div>
+
+      <div class="timeline-step" [class.active]="isReached('Assigned')">
+        <div class="dot"></div>
+        <span>Assigned</span>
+      </div>
+
+      <div class="timeline-step" [class.active]="isReached('InReview')">
+        <div class="dot"></div>
+        <span>In Review</span>
+      </div>
+
+      <div class="timeline-step" [class.active]="isReached('Resolved')">
+        <div class="dot"></div>
+        <span>Resolved</span>
+      </div>
+
+      <div class="timeline-step" [class.active]="isReached('Closed')">
+        <div class="dot"></div>
+        <span>Closed</span>
+      </div>
+    </div>
+
+    @if (grievance()!.resolutionRemarks) {
+      <mat-card class="resolution-card">
+        <h3>Resolution Remarks</h3>
+        <p>{{ grievance()!.resolutionRemarks }}</p>
+      </mat-card>
+    }
+
+  </div>
+}

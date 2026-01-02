@@ -9,11 +9,11 @@ namespace Backend.Controllers
 {
     [Route("api/grievances")]
     [ApiController]
-    [Authorize(Roles ="Citizen")]
+    [Authorize(Roles = "Citizen")]
     public class GrievancesController : ControllerBase
     {
         private readonly IGrievanceService _grievanceService;
-        
+
         public GrievancesController(IGrievanceService grievanceService)
         {
             _grievanceService = grievanceService;
@@ -49,10 +49,23 @@ namespace Backend.Controllers
             return Ok(result);
         }
 
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetMyGrievanceById(int id)
+        {
+            int citizenId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+
+            var grievance = await _grievanceService.GetMyGrievanceByIdAsync(id, citizenId);
+
+            if (grievance == null)
+                return NotFound(new { message = "Grievance not found" });
+
+            return Ok(grievance);
+        }
+
         [HttpGet("categories")]
         public async Task<IActionResult> AllCategories()
         {
-            
+
             var result = await _grievanceService.GetAllCategories();
 
             return Ok(result);
