@@ -1,0 +1,125 @@
+/* Layout */
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 24px;
+}
+
+.page-header {
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 1.7rem;
+  font-weight: 600;
+}
+
+.subtitle {
+  color: #666;
+}
+
+/* Table */
+.table-wrapper {
+  background: white;
+  border-radius: 12px;
+  overflow-x: auto;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+}
+
+.grievance-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.grievance-table th,
+.grievance-table td {
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.grievance-table th {
+  background: #fafafa;
+  font-weight: 600;
+}
+
+.mono {
+  font-family: monospace;
+}
+
+/* Status badge */
+.status {
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.status.submitted {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+.status.assigned {
+  background: #fff3e0;
+  color: #ef6c00;
+}
+
+.status.inreview {
+  background: #ede7f6;
+  color: #5e35b1;
+}
+
+.status.resolved {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.status.closed {
+  background: #eceff1;
+  color: #455a64;
+}
+
+/* Loading */
+.loading-box {
+  height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+}
+
+.spin {
+  font-size: 42px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Empty */
+.empty-state {
+  text-align: center;
+  padding: 60px;
+  color: #888;
+}
+
+.fade-in {
+  animation: fade 0.3s ease;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

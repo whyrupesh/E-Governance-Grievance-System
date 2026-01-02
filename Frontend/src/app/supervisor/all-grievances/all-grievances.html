@@ -1,0 +1,68 @@
+<!-- @if (loading) {
+  <div class="loading-box">
+    <mat-icon class="spin">autorenew</mat-icon>
+    <p>Loading grievances...</p>
+  </div>
+} -->
+
+@if ( error) {
+  <p class="error">{{ error }}</p>
+}
+
+@if (grievances().length > 0) {
+  <div class="container fade-in">
+
+    <div class="page-header">
+      <h2 class="title">All Grievances</h2>
+      <p class="subtitle">Supervisor view of submitted grievances</p>
+    </div>
+
+    <div class="table-wrapper">
+      <table class="grievance-table">
+        <thead>
+          <tr>
+            <!-- <th>#</th> -->
+            <th>Grievance No</th>
+            <th>Category</th>
+            <th>Department</th>
+            <th>Status</th>
+            <th>Created</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (g of grievances(); track g.grievanceNumber) {
+            <tr>
+              <!-- <td>{{ g.grievanceNumber }}</td> -->
+              <td class="mono">{{ g.grievanceNumber }}</td>
+              <td>{{ g.category }}</td>
+              <td>{{ g.department }}</td>
+
+              <td>
+                <span class="status" [ngClass]="g.status.toLowerCase()">
+                  {{ g.status }}
+                </span>
+              </td>
+
+              <td>{{ g.createdAt | date:'mediumDate' }}</td>
+
+              <td>
+                <button mat-icon-button color="primary">
+                  <mat-icon>visibility</mat-icon>
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+}
+
+<!-- @if (!loading && grievances().length === 0) {
+  <div class="empty-state">
+    <mat-icon>inbox</mat-icon>
+    <p>No grievances available.</p>
+  </div>
+} -->

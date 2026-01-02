@@ -12,6 +12,10 @@ export class SupervisorService {
 
   constructor(private http: HttpClient) {}
 
+  getAll() {
+    return this.http.get<SupervisorGrievance[]>(this.API_URL);
+  }
+
   getOverdue(days: number) {
     return this.http.get<SupervisorGrievance[]>(
       `${this.API_URL}/overdue?days=${days}`

@@ -16,6 +16,14 @@ public class SupervisorController : ControllerBase
         _supervisorService = supervisorService;
     }
 
+    [HttpGet("grievances")]
+    public async Task<IActionResult> AllGrievances()
+    {
+        var result = await _supervisorService.GetAllGrievances();
+
+        return Ok(result);
+    }
+
     [HttpGet("overdue")]
     public async Task<IActionResult> OverdueGrievances([FromQuery] int days = 7)
     {

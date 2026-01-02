@@ -65,8 +65,8 @@ export const routes: Routes = [
         canActivate: [RoleGuard],
         data: { roles: ['Supervisor'] },
         loadComponent: () =>
-          import('./supervisor/overdue-grievances/overdue-grievances')
-            .then(m => m.OverdueGrievancesComponent)
+          import('./supervisor/all-grievances/all-grievances')
+            .then(m => m.SupervisorGrievancesComponent)
       },
 
       // -------- Admin --------
