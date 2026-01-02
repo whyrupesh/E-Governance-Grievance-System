@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CreateGrievanceRequest, Grievance } from '../../shared/models/grievance.model';
+import { Category } from '../../shared/models/admin.model';
 
 @Injectable({
   providedIn: 'root'
@@ -17,5 +18,9 @@ export class GrievanceService {
 
   getMyGrievances() {
     return this.http.get<Grievance[]>(`${this.API_URL}/my`);
+  }
+
+  getCategories(){
+    return this.http.get<Category[]>(`${this.API_URL}/categories`);
   }
 }

@@ -48,5 +48,14 @@ namespace Backend.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("categories")]
+        public async Task<IActionResult> AllCategories()
+        {
+            
+            var result = await _grievanceService.GetAllCategories();
+
+            return Ok(result);
+        }
     }
 }

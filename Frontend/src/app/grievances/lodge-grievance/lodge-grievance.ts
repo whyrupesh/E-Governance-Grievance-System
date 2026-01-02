@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal, OnInit } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
+import { Category } from '../../shared/models/admin.model';
 
 @Component({
   selector: 'app-lodge-grievance',
@@ -28,15 +29,11 @@ import { RouterModule } from '@angular/router';
   templateUrl: './lodge-grievance.html',
   styleUrls: ['./lodge-grievance.css']
 })
-export class LodgeGrievanceComponent {
+export class LodgeGrievanceComponent implements OnInit {
 
   form!: FormGroup;
 
-  categories = [
-    { id: 1, name: 'Water Supply' },
-    { id: 2, name: 'Electricity' },
-    { id: 3, name: 'Sanitation' }
-  ];
+  categories = signal<Category[]>([]);
 
   constructor(
     private fb: FormBuilder,
@@ -46,6 +43,12 @@ export class LodgeGrievanceComponent {
       categoryId: ['', Validators.required],
       description: ['', Validators.required]
     });
+  }
+
+  async ngOnInit(){
+     this.grievanceService.getCategories().subscribe( res =>{
+        this.categories.set(res);
+      })
   }
 
   submit() {

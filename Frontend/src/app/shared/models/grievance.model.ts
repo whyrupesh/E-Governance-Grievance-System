@@ -11,3 +11,4 @@ export interface Grievance {
   status: string;
   createdAt: string;
 }
+

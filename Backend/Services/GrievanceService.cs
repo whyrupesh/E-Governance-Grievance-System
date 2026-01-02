@@ -1,4 +1,5 @@
 using Backend.Data;
+using Backend.DTOs.Admin;
 using Backend.DTOs.Grievance;
 using Backend.Enums;
 using Backend.Models;
@@ -65,5 +66,16 @@ public class GrievanceService : IGrievanceService
                 CreatedAt = g.CreatedAt
             })
             .ToListAsync();
+    }
+
+
+    public async Task<IEnumerable<CategoryResponseDto>> GetAllCategories()
+    {
+        return await _context.Categories.Select( g => new CategoryResponseDto
+        {
+            Id = g.Id,
+            Name = g.Name,
+            // DepartmentId = g.DepartmentId
+        }).ToListAsync();
     }
 }

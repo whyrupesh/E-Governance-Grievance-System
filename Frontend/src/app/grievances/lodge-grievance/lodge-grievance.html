@@ -12,7 +12,7 @@
           <mat-label>Select Category</mat-label>
           <mat-icon matPrefix>category</mat-icon>
           <mat-select formControlName="categoryId" placeholder="Choose a category">
-            <mat-option *ngFor="let c of categories" [value]="c.id">
+            <mat-option *ngFor="let c of categories()" [value]="c.id">
               {{ c.name }}
             </mat-option>
           </mat-select>
