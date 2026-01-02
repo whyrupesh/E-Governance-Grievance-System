@@ -16,8 +16,8 @@ export class AdminService {
     return this.http.get<Department[]>(`${this.API_URL}/departments`);
   }
 
-  addDepartment(name: string) {
-    return this.http.post(`${this.API_URL}/departments`, { name });
+  addDepartment(name: string, description : string) {
+    return this.http.post(`${this.API_URL}/departments`, { name, description });
   }
 
   // Categories

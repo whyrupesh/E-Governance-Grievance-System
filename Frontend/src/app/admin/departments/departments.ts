@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -31,26 +31,30 @@ import { MatDividerModule } from '@angular/material/divider';
 })
 export class DepartmentsComponent implements OnInit {
 
-  departments: Department[] = [];
-  name = '';
+  departments = signal<Department[]>([]);
 
-  constructor(private adminService: AdminService) { }
+  name = '';
+  description = '';
+
+  constructor(private adminService: AdminService) {}
 
   ngOnInit() {
     this.load();
   }
 
   load() {
-    this.adminService.getDepartments()
-      .subscribe(res => this.departments = res);
+    this.adminService.getDepartments().subscribe(res => {
+      this.departments.set(res);
+    });
   }
 
   add() {
     if (!this.name) return;
 
-    this.adminService.addDepartment(this.name)
+    this.adminService.addDepartment(this.name, this.description)
       .subscribe(() => {
         this.name = '';
+        this.description = '';
         this.load();
       });
   }

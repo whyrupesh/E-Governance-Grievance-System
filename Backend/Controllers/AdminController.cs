@@ -24,6 +24,13 @@ public class AdminController : ControllerBase
         return Ok();
     }
 
+    [HttpGet("departments")]
+    public async Task<IActionResult> GetDepartment()
+    {
+        var result = await _adminService.GetDepartmentAsync();
+        return Ok(result);
+    }
+
     [HttpPost("categories")]
     public async Task<IActionResult> CreateCategory(CreateCategoryDto dto)
     {

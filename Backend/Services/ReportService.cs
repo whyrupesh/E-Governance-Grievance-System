@@ -29,28 +29,28 @@ public class ReportService : IReportService
 
     // 2️⃣ Department performance
     public async Task<IEnumerable<DepartmentPerformanceDto>> GetDepartmentPerformanceAsync()
-{
-    var grievances = await _context.Grievances
-        .Include(g => g.Department)
-        .Where(g => g.ResolvedAt != null)
-        .ToListAsync();
+    {
+        var grievances = await _context.Grievances
+            .Include(g => g.Department)
+            .Where(g => g.ResolvedAt != null)
+            .ToListAsync();
 
-    return grievances
-        .GroupBy(g => g.Department.Name)
-        .Select(group => new DepartmentPerformanceDto
-        {
-            Department = group.Key,
-            TotalGrievances = group.Count(),
-            ResolvedGrievances = group.Count(),
+        return grievances
+            .GroupBy(g => g.Department.Name)
+            .Select(group => new DepartmentPerformanceDto
+            {
+                Department = group.Key,
+                TotalGrievances = group.Count(),
+                ResolvedGrievances = group.Count(),
 
-            AverageResolutionDays = Math.Round(
-                group.Average(g =>
-                    (g.ResolvedAt!.Value - g.CreatedAt).TotalDays
-                ),
-                2
-            )
-        })
-        .ToList();
-}
+                AverageResolutionDays = Math.Round(
+                    group.Average(g =>
+                        (g.ResolvedAt!.Value - g.CreatedAt).TotalDays
+                    ),
+                    2
+                )
+            })
+            .ToList();
+    }
 
 }

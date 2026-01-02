@@ -16,34 +16,38 @@
           <th>Action</th>
         </tr>
       </thead>
+
       <tbody>
-        @for (g of grievances; track g.id) {
-        <tr>
-          <td class="id-cell">#{{ g.grievanceNumber }}</td>
-          <td class="category-cell">{{ g.category }}</td>
-          <td>
-            <span class="status-chip {{ g.status.toLowerCase() }}">
-              {{ g.status }}
-            </span>
-          </td>
-          <td class="date-cell">{{ g.createdAt | date:'mediumDate' }}</td>
-          <td>
-            <button mat-icon-button color="primary" class="action-btn">
-              <mat-icon>visibility</mat-icon>
-            </button>
-          </td>
-        </tr>
+        @for (g of grievances(); track g.grievanceNumber) {
+          <tr>
+            <td class="id-cell">#{{ g.grievanceNumber }}</td>
+            <td class="category-cell">{{ g.category }}</td>
+            <td>
+              <span class="status-chip {{ g.status.toLowerCase() }}">
+                {{ g.status }}
+              </span>
+            </td>
+            <td class="date-cell">
+              {{ g.createdAt | date:'mediumDate' }}
+            </td>
+            <td>
+              <button mat-icon-button color="primary" class="action-btn">
+                <mat-icon>visibility</mat-icon>
+              </button>
+            </td>
+          </tr>
         }
-        @if (grievances.length === 0) {
-        <tr class="empty-row">
-          <td colspan="5">
-            <div class="empty-state">
-              <mat-icon>inbox</mat-icon>
-              <p>No grievances found. Lodge one to get started.</p>
-            </div>
-          </td>
-        </tr>
-        }
+
+        <!-- @if (grievances.length === 0) {
+          <tr class="empty-row">
+            <td colspan="5">
+              <div class="empty-state">
+                <mat-icon>inbox</mat-icon>
+                <p>No grievances found. Lodge one to get started.</p>
+              </div>
+            </td>
+          </tr>
+        } -->
       </tbody>
     </table>
   </div>

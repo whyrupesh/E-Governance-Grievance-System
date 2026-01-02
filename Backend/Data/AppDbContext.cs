@@ -44,6 +44,8 @@ public class AppDbContext : DbContext
             new Category { Id = 5, Name = "Garbage Not Collected", DepartmentId = 3 }
         );
 
+
+        //Relationships
         modelBuilder.Entity<Category>()
             .HasOne(c => c.Department)
             .WithMany()

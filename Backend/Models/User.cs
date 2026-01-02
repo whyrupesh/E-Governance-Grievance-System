@@ -16,8 +16,8 @@ public class User
 
     public bool IsActive { get; set; } = true;
 
-    
+
     // Officer only
-    public int? DepartmentId { get; set; }
+    public int? DepartmentId { get; set; } //nullable because admins and citizen donot belongs to any department
 
 }

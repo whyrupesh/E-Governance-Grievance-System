@@ -7,28 +7,31 @@
 
   <div class="split-layout">
 
-    <!-- Left: List -->
+    <!-- Left: Department List -->
     <div class="glass-panel list-panel">
       <div class="panel-header">
         <h3>Existing Departments</h3>
       </div>
+
       <mat-list>
-        @for (d of departments; track d.id) {
-        <mat-list-item class="list-item">
-          <mat-icon matListItemIcon class="item-icon">domain</mat-icon>
-          <span matListItemTitle class="item-title">{{ d.name }}</span>
-        </mat-list-item>
-        <mat-divider></mat-divider>
+        @for (d of departments(); track d.name) {
+          <mat-list-item class="list-item">
+            <mat-icon matListItemIcon class="item-icon">domain</mat-icon>
+            <span matListItemTitle class="item-title">{{ d.name }}</span>
+          </mat-list-item>
+
+          <mat-divider></mat-divider>
         }
-        @if (departments.length === 0) {
-        <div class="empty-state">
-          <p>No departments found.</p>
-        </div>
+
+        @if (departments().length === 0) {
+          <div class="empty-state">
+            <p>No departments found.</p>
+          </div>
         }
       </mat-list>
     </div>
 
-    <!-- Right: Add Form -->
+    <!-- Right: Add Department Form -->
     <div class="glass-panel form-panel">
       <div class="panel-header">
         <h3>Add New Department</h3>
@@ -38,10 +41,32 @@
         <mat-form-field appearance="outline" class="custom-field">
           <mat-label>Department Name</mat-label>
           <mat-icon matPrefix>edit</mat-icon>
-          <input matInput [(ngModel)]="name" name="name" placeholder="E.g. Public Works" />
+          <input
+            matInput
+            [(ngModel)]="name"
+            name="name"
+            placeholder="E.g. Public Works"
+          />
         </mat-form-field>
 
-        <button mat-flat-button color="primary" class="submit-btn" (click)="add()" [disabled]="!name">
+        <mat-form-field appearance="outline" class="custom-field">
+          <mat-label>Description</mat-label>
+          <mat-icon matPrefix>edit</mat-icon>
+          <input
+            matInput
+            [(ngModel)]="description"
+            name="description"
+            placeholder="E.g. This takes care of Sanitation."
+          />
+        </mat-form-field>
+
+        <button
+          mat-flat-button
+          color="primary"
+          class="submit-btn"
+          (click)="add()"
+          [disabled]="!name"
+        >
           <mat-icon>add</mat-icon>
           Create Department
         </button>

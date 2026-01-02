@@ -15,7 +15,7 @@ bootstrapApplication(AppComponent, {
     provideRouter(routes),
     provideAnimations(),
     provideHttpClient(
-      withInterceptors([authInterceptor]) // ✅ CORRECT
+      withInterceptors([authInterceptor]) 
     )
   ]
 }).catch(err => console.error(err));

@@ -27,6 +27,17 @@ public class AdminService : IAdminService
         await _context.SaveChangesAsync();
     }
 
+    public async Task<IEnumerable<DepartmentResponseDto>> GetDepartmentAsync()
+    {
+        return await _context.Departments.Select( g => new DepartmentResponseDto
+        {
+            Name = g.Name,
+            Description = g.Description
+        }).
+        ToListAsync();
+
+    }
+
     public async Task CreateCategoryAsync(CreateCategoryDto dto)
     {
         var departmentExists = await _context.Departments

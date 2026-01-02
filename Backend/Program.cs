@@ -68,14 +68,6 @@ var app = builder.Build();
 //     await DbSeeder.SeedAsync(dbContext);
 // }
 
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-    await DbSeeder.ResetPasswordAsync(db, "admin@gov.in", "Admin@123");
-    await DbSeeder.ResetPasswordAsync(db, "officer@gov.in", "Officer@123");
-    await DbSeeder.ResetPasswordAsync(db, "supervisor@gov.in", "Supervisor@123");
-}
 
 
 

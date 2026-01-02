@@ -11,10 +11,7 @@ import { filter } from 'rxjs/operators';
   standalone: true,
   imports: [
     RouterOutlet,
-    MatSidenavModule,
-    Navbar,
-    Sidebar,
-    NgIf                // ✅ THIS FIXES THE ERROR
+    MatSidenavModule,         
   ],
   templateUrl: './app.html',
   styleUrl: './app.css'

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import { AuthResponse, LoginRequest, RegisterRequest } from '../../shared/models/auth.model';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -48,6 +49,8 @@ export class AuthService {
 
   logout() {
     localStorage.clear();
+    sessionStorage.clear();
+    window.location.replace('/login');
   }
 
   isLoggedIn(): boolean {

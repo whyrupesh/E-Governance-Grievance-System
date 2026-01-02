@@ -9,20 +9,7 @@ namespace Backend.Data
     public static class DbSeeder
     {
 
-        public static async Task ResetPasswordAsync(
-    AppDbContext context,
-    string email,
-    string newPassword
-)
-{
-    var user = await context.Users.FirstOrDefaultAsync(u => u.Email == email);
-    if (user == null) return;
-
-    var hasher = new PasswordHasher<User>();
-    user.PasswordHash = PasswordHasher.Hash(newPassword);
-
-    await context.SaveChangesAsync();
-}
+       
         public static async Task SeedAsync(AppDbContext context)
         {
             await context.Database.MigrateAsync();
