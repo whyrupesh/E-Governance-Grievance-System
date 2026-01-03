@@ -5,6 +5,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { GrievanceService } from '../../core/services/grievance.service';
 import { Grievance } from '../../shared/models/grievance.model';
+import { Location } from '@angular/common';
+
 
 @Component({
   standalone: true,
@@ -20,7 +22,8 @@ export class MyGrievanceDetail implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private grievanceService: GrievanceService
+    private grievanceService: GrievanceService,
+    private location: Location
   ) {}
 
   isReached(step: string): boolean {
@@ -29,6 +32,21 @@ export class MyGrievanceDetail implements OnInit {
 
   return order.indexOf(current!) >= order.indexOf(step);
 }
+
+  deleteGrievance() {
+    const id = this.grievance()?.id;
+    if (!id) return;
+
+    this.grievanceService.deleteMyGrievance(id).subscribe({
+      next: () => {
+        alert('Grievance deleted successfully.');
+        this.location.back();
+      },
+      error: () => {
+        alert('Failed to delete the grievance. Please try again later.');
+      }
+    });
+  }
 
 
   ngOnInit() {

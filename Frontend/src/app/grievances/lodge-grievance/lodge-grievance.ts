@@ -11,6 +11,8 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { Category } from '../../shared/models/admin.model';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-lodge-grievance',
@@ -37,7 +39,8 @@ export class LodgeGrievanceComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private grievanceService: GrievanceService
+    private grievanceService: GrievanceService,
+    private router: Router
   ) {
     this.form = this.fb.group({
       categoryId: ['', Validators.required],
@@ -57,6 +60,7 @@ export class LodgeGrievanceComponent implements OnInit {
     this.grievanceService.createGrievance(this.form.value)
       .subscribe(() => {
         alert('Grievance submitted successfully');
+        this.router.navigate(['/grievances']);
         this.form.reset();
       });
   }

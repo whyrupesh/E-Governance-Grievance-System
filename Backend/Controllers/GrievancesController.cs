@@ -62,6 +62,16 @@ namespace Backend.Controllers
             return Ok(grievance);
         }
 
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DeleteMyGrievance(int id)
+        {
+            int citizenId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+
+            var result = await _grievanceService.DeleteMyGrievanceAsync(id, citizenId);
+
+            return Ok(result);
+        }
+
         [HttpGet("categories")]
         public async Task<IActionResult> AllCategories()
         {

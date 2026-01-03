@@ -29,5 +29,9 @@ export class GrievanceService {
     return this.http.get<Category[]>(`${this.API_URL}/categories`);
   }
 
+  deleteMyGrievance(id: number) {
+    return this.http.delete(`${this.API_URL}/${id}`);
+  }
+
 
 }

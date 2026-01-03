@@ -24,6 +24,15 @@
         <strong>Description</strong>
         <p>{{ grievance()!.description }}</p>
       </div>
+
+      <div class="actions">
+        @if (grievance()!.status === 'Submitted' || grievance()!.status === 'Assigned') {
+          <button mat-stroked-button style="display: flex; align-items: center; color: rgb(197, 0, 0);" color="warn" (click)="deleteGrievance()">
+            <mat-icon>delete</mat-icon>
+            Delete Grievance
+          </button>
+        }
+      </div>
     </mat-card>
 
     <!-- Timeline -->

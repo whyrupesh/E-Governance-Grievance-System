@@ -97,7 +97,20 @@ public class GrievanceService : IGrievanceService
 }
 
 
+public async Task<object> DeleteMyGrievanceAsync(int grievanceId, int citizenId)
+    {
+        var grievance = await _context.Grievances
+            .FirstOrDefaultAsync(g => g.Id == grievanceId && g.CitizenId == citizenId);
 
+        if (grievance == null)
+            throw new Exception("Grievance not found");
+
+        _context.Grievances.Remove(grievance);
+        await _context.SaveChangesAsync();
+
+        return new { message = "Grievance deleted successfully" };
+    }
+    
     public async Task<IEnumerable<CategoryResponseDto>> GetAllCategories()
     {
         return await _context.Categories.Select( g => new CategoryResponseDto
