@@ -68,6 +68,12 @@ export const routes: Routes = [
           import('./supervisor/all-grievances/all-grievances')
             .then(m => m.SupervisorGrievancesComponent)
       },
+      {
+        path: 'supervisor/grievances/:id',
+        loadComponent: () =>
+          import('./supervisor/supervisor-grievance-detail/supervisor-grievance-detail')
+            .then(m => m.SupervisorGrievanceDetailComponent)
+      },
 
       // -------- Admin --------
       {

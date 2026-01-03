@@ -24,6 +24,13 @@ public class SupervisorController : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("grievances/{id}")]
+    public async Task<IActionResult> GetGrievanceById(int id)
+    {
+        var result = await _supervisorService.GetGrievanceByIdAsync(id);
+        return Ok(result);
+    }
+
     [HttpGet("overdue")]
     public async Task<IActionResult> OverdueGrievances([FromQuery] int days = 7)
     {
@@ -31,7 +38,7 @@ public class SupervisorController : ControllerBase
         return Ok(result);
     }
 
-    [HttpPost("escalate/{id}")]
+    [HttpPatch("escalate/{id}")]
     public async Task<IActionResult> Escalate(int id)
     {
         await _supervisorService.EscalateAsync(id);

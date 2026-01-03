@@ -1,9 +1,13 @@
 export interface SupervisorGrievance {
+  id: number;
   grievanceNumber: string;
-  department: string;
   category: string;
+  department: string;
   status: string;
   createdAt: string;
-  daysPending: number;
+  description : string;
+  resolveAt : string;
+  resolutionRemarks : string;
   isEscalated: boolean;
+  escalatedAt : string;
 }

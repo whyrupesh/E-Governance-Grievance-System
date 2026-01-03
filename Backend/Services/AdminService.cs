@@ -31,11 +31,26 @@ public class AdminService : IAdminService
     {
         return await _context.Departments.Select( g => new DepartmentResponseDto
         {
+            Id = g.Id,
             Name = g.Name,
             Description = g.Description
         }).
         ToListAsync();
 
+    }
+
+    public async Task<IEnumerable<CategoryResponseDto>> GetCategoriesAsync()
+    {
+        return await _context.Categories
+            .Include(c => c.Department)
+            .Select(c => new CategoryResponseDto
+            {
+                Id = c.Id,
+                Name = c.Name,
+                DepartmentId = c.DepartmentId,
+                DepartmentName = c.Department.Name
+            })
+            .ToListAsync();
     }
 
     public async Task CreateCategoryAsync(CreateCategoryDto dto)
@@ -55,6 +70,20 @@ public class AdminService : IAdminService
         await _context.SaveChangesAsync();
     }
 
+    public async Task<IEnumerable<OfficerResponseDto>> GetOfficersAsync()
+    {
+        return await _context.Users
+            .Where(u => u.Role == UserRole.Officer)
+            .Select(u => new OfficerResponseDto
+            {
+                Id = u.Id,
+                Name = u.FullName,
+                Email = u.Email,
+                Department = u.DepartmentId.ToString(),
+                Role = u.Role.ToString()
+            })
+            .ToListAsync();
+    }
     public async Task CreateOfficerAsync(CreateOfficerDto dto)
     {
         if (await _context.Users.AnyAsync(u => u.Email == dto.Email))

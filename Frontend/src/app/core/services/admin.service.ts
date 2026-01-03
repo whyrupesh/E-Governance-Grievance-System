@@ -35,6 +35,7 @@ export class AdminService {
   }
 
   createOfficer(data: any) {
+    console.log(data);
     return this.http.post(`${this.API_URL}/officers`, data);
   }
 }

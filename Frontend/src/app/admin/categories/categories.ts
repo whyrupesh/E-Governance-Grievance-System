@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -33,7 +33,7 @@ import { MatDividerModule } from '@angular/material/divider';
 })
 export class CategoriesComponent implements OnInit {
 
-  categories: Category[] = [];
+  categories = signal<Category[]>([]);
   departments: Department[] = [];
   name = '';
   departmentId!: number;
@@ -49,7 +49,7 @@ export class CategoriesComponent implements OnInit {
 
   load() {
     this.adminService.getCategories()
-      .subscribe(res => this.categories = res);
+      .subscribe(res => this.categories.set(res));
   }
 
   add() {

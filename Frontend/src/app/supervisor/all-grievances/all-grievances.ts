@@ -3,6 +3,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import {RouterLink} from '@angular/router';
 
 import { SupervisorService } from '../../core/services/supervisor.service';
 import { SupervisorGrievance } from '../../shared/models/supervisor-grievance.model';
@@ -15,7 +16,8 @@ import { SupervisorGrievance } from '../../shared/models/supervisor-grievance.mo
     DatePipe,
     MatCardModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    RouterLink
   ],
   templateUrl: './all-grievances.html',
   styleUrls: ['./all-grievances.css']

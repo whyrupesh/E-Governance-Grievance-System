@@ -13,11 +13,11 @@
         <h3>Existing Categories</h3>
       </div>
       <mat-list>
-        @for (c of categories; track c.id) {
+        @for (c of categories(); track c.id) {
         <mat-list-item class="list-item">
           <mat-icon matListItemIcon class="item-icon">category</mat-icon>
           <div matListItemTitle class="item-title">{{ c.name }}</div>
-          <div matListItemLine class="item-subtitle">Dept ID: {{ c.departmentId }}</div>
+          <div matListItemLine class="item-subtitle">Dept Name: <span>{{ c.departmentName }}</span></div>
         </mat-list-item>
         <mat-divider></mat-divider>
         }

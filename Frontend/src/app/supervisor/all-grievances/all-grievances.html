@@ -6,58 +6,57 @@
 } -->
 
 @if ( error) {
-  <p class="error">{{ error }}</p>
+<p class="error">{{ error }}</p>
 }
 
 @if (grievances().length > 0) {
-  <div class="container fade-in">
+<div class="container fade-in">
 
     <div class="page-header">
-      <h2 class="title">All Grievances</h2>
-      <p class="subtitle">Supervisor view of submitted grievances</p>
+        <h2 class="title">All Grievances</h2>
+        <p class="subtitle">Supervisor view of submitted grievances</p>
     </div>
 
     <div class="table-wrapper">
-      <table class="grievance-table">
-        <thead>
-          <tr>
-            <!-- <th>#</th> -->
-            <th>Grievance No</th>
-            <th>Category</th>
-            <th>Department</th>
-            <th>Status</th>
-            <th>Created</th>
-            <th>Action</th>
-          </tr>
-        </thead>
+        <table class="grievance-table">
+            <thead>
+                <tr>
+                    <th>Grievance No</th>
+                    <th>Category</th>
+                    <th>Department</th>
+                    <th>Status</th>
+                    <th>Created</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
 
-        <tbody>
-          @for (g of grievances(); track g.grievanceNumber) {
-            <tr>
-              <!-- <td>{{ g.grievanceNumber }}</td> -->
-              <td class="mono">{{ g.grievanceNumber }}</td>
-              <td>{{ g.category }}</td>
-              <td>{{ g.department }}</td>
+            <tbody>
+                @for (g of grievances(); track g.grievanceNumber) {
+                <tr>
+                    <td class="mono">{{ g.grievanceNumber }}</td>
+                    <td>{{ g.category }}</td>
+                    <td>{{ g.department }}</td>
 
-              <td>
-                <span class="status" [ngClass]="g.status.toLowerCase()">
-                  {{ g.status }}
-                </span>
-              </td>
+                    <td>
+                        <span class="status" [ngClass]="g.status.toLowerCase()">
+                            {{ g.status }}
+                        </span>
+                    </td>
 
-              <td>{{ g.createdAt | date:'mediumDate' }}</td>
+                    <td>{{ g.createdAt | date:'mediumDate' }}</td>
 
-              <td>
-                <button mat-icon-button color="primary">
-                  <mat-icon>visibility</mat-icon>
-                </button>
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
+                    <td>
+                        <button mat-icon-button color="primary" [routerLink]="['/supervisor/grievances', g.id]">
+                            <mat-icon>visibility</mat-icon>
+                        </button>
+
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
     </div>
-  </div>
+</div>
 }
 
 <!-- @if (!loading && grievances().length === 0) {

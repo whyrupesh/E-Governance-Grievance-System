@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { AdminService } from '../../core/services/admin.service';
@@ -32,8 +32,8 @@ import { MatDividerModule } from '@angular/material/divider';
 })
 export class OfficersComponent implements OnInit {
 
-  officers: Officer[] = [];
-  departments: Department[] = [];
+  officers = signal<Officer[]>([]);
+  departments = signal<Department[]>([]);
   form!: FormGroup;
 
   constructor(
@@ -44,7 +44,7 @@ export class OfficersComponent implements OnInit {
       fullName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
-      departmentId: ['', Validators.required]
+      departmentId: [null, Validators.required]
     });
   }
 
@@ -55,12 +55,12 @@ export class OfficersComponent implements OnInit {
 
   load() {
     this.adminService.getOfficers()
-      .subscribe(res => this.officers = res);
+      .subscribe(res => this.officers.set(res));
   }
 
   loadDepartments() {
     this.adminService.getDepartments()
-      .subscribe(res => this.departments = res);
+      .subscribe(res => this.departments.set(res));
   }
 
   add() {

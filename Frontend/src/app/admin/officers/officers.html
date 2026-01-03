@@ -13,19 +13,19 @@
         <h3>Registered Officers</h3>
       </div>
       <mat-list>
-        @for (o of officers; track o.id) {
+        @for (o of officers(); track o.id) {
         <mat-list-item class="list-item">
           <mat-icon matListItemIcon class="item-icon">badge</mat-icon>
-          <div matListItemTitle class="item-title">{{ o.fullName }}</div>
+          <div matListItemTitle class="item-title">{{ o.name }}</div>
           <div matListItemLine class="item-subtitle">{{ o.email }} • {{ o.department }}</div>
         </mat-list-item>
         <mat-divider></mat-divider>
         }
-        @if (officers.length === 0) {
+        <!-- @if (officers.length === 0) {
         <div class="empty-state">
           <p>No officers found.</p>
         </div>
-        }
+        } -->
       </mat-list>
     </div>
 
@@ -57,12 +57,13 @@
         <mat-form-field appearance="outline" class="custom-field">
           <mat-label>Department</mat-label>
           <mat-icon matPrefix>domain</mat-icon>
-          <mat-select formControlName="departmentId" placeholder="Assign Department">
-            @for (d of departments; track d.id) {
+          <mat-select formControlName="departmentId" placeholder="Select Department">
+            @for (d of departments(); track d.id) {
             <mat-option [value]="d.id">{{ d.name }}</mat-option>
             }
           </mat-select>
         </mat-form-field>
+       
 
         <button mat-flat-button color="primary" class="submit-btn" (click)="add()">
           <mat-icon>person_add</mat-icon>

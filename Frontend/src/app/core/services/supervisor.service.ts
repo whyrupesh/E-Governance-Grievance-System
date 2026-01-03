@@ -8,17 +8,30 @@ import { SupervisorGrievance } from '../../shared/models/supervisor-grievance.mo
 export class SupervisorService {
 
   private readonly API_URL =
-    'http://localhost:5280/api/supervisor/grievances';
+    'http://localhost:5280/api/supervisor';
 
   constructor(private http: HttpClient) {}
 
   getAll() {
-    return this.http.get<SupervisorGrievance[]>(this.API_URL);
+    return this.http.get<SupervisorGrievance[]>(`${this.API_URL}/grievances`);
+  }
+
+  getById(grievanceId: number) {
+    return this.http.get<SupervisorGrievance>(
+      `${this.API_URL}/grievances/${grievanceId}`
+    );
   }
 
   getOverdue(days: number) {
     return this.http.get<SupervisorGrievance[]>(
       `${this.API_URL}/overdue?days=${days}`
+    );
+  }
+
+  escalateGrievance(grievanceId: number) {
+    return this.http.patch(
+      `${this.API_URL}/escalate/${grievanceId}`,
+      {}
     );
   }
 }
