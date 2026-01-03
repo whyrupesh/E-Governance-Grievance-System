@@ -20,7 +20,7 @@
           </tr>
         </thead>
         <tbody>
-          @for (g of grievances; track g.id) {
+          @for (g of grievances(); track g.id) {
           <tr [class.selected-row]="selected?.id === g.id">
             <td class="id-cell">#{{ g.grievanceNumber }}</td>
             <td class="citizen-cell">
@@ -42,7 +42,7 @@
             </td>
           </tr>
           }
-          @if (grievances.length === 0) {
+          @if (grievances().length === 0) {
           <tr class="empty-row">
             <td colspan="5">
               <div class="empty-state">

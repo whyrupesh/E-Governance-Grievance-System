@@ -26,6 +26,14 @@ public class OfficerController : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("grievances/{id}")]
+    public async Task<IActionResult> GetGrievanceById(int id)
+    {
+        var officerId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        var result = await _officerService.GetGrievanceByIdAsync(id, officerId);
+        return Ok(result);
+    }
+
     [HttpPut("grievances/{id}")]
     public async Task<IActionResult> UpdateStatus(
         int id,

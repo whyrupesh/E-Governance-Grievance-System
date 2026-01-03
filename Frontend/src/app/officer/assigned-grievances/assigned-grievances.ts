@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, Validators, ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -31,7 +31,7 @@ import { MatDividerModule } from '@angular/material/divider';
 })
 export class AssignedGrievancesComponent implements OnInit {
 
-  grievances: OfficerGrievance[] = [];
+  grievances = signal<OfficerGrievance[]>([]);
   selected?: OfficerGrievance;
   form!: FormGroup;
 
@@ -51,7 +51,7 @@ export class AssignedGrievancesComponent implements OnInit {
 
   load() {
     this.officerService.getAssignedGrievances()
-      .subscribe(res => this.grievances = res);
+      .subscribe(res => this.grievances.set(res));
   }
 
   select(g: OfficerGrievance) {
