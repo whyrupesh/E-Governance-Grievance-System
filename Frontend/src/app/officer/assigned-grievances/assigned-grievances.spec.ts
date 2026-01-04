@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AssignedGrievances } from './assigned-grievances';
+import { AssignedGrievancesComponent } from './assigned-grievances';
 
 describe('AssignedGrievances', () => {
-  let component: AssignedGrievances;
-  let fixture: ComponentFixture<AssignedGrievances>;
+  let component: AssignedGrievancesComponent;
+  let fixture: ComponentFixture<AssignedGrievancesComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AssignedGrievances]
+      imports: [AssignedGrievancesComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
-    fixture = TestBed.createComponent(AssignedGrievances);
+    fixture = TestBed.createComponent(AssignedGrievancesComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

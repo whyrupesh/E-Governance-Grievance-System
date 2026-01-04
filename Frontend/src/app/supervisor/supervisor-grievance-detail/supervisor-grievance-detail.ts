@@ -81,8 +81,7 @@ export class SupervisorGrievanceDetailComponent implements OnInit {
 
   assignOfficer() {
     if (!this.selectedOfficerId || !this.grievance()) return;
-    console.log(this.selectedOfficerId);
-    console.log(this.grievance()!.id);
+
 
     this.supervisorService
       .assignOfficer(this.grievance()!.id, this.selectedOfficerId)
@@ -100,7 +99,7 @@ export class SupervisorGrievanceDetailComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.supervisorService
-          .closeGrievance(this.grievance()!.id, result)
+          .closeGrievance(this.grievance()!.id)
           .subscribe({
             next: () => this.reload(),
             error: err => console.error(err)

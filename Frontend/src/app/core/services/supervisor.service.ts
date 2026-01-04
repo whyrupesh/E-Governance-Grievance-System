@@ -48,10 +48,10 @@ export class SupervisorService {
     );
   }
 
-  closeGrievance(grievanceId: number, closingRemarks: string) {
+  closeGrievance(grievanceId: number) {
     return this.http.post(
-      `${this.API_URL}/grievances/${grievanceId}/remarks`,
-      JSON.stringify(closingRemarks),
+      `${this.API_URL}/grievances/${grievanceId}/close`,
+      JSON.stringify('Closed'),
       {
         headers: new HttpHeaders({
           'Content-Type': 'application/json'

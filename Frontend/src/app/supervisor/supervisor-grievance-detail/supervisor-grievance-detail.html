@@ -41,6 +41,13 @@
         <p>{{ grievance()!.description }}</p>
       </div>
 
+      @if(grievance()!.resolutionRemarks) {
+      <div class="description-section">
+        <label>Resolution Remarks By Department Officer</label>
+        <p>{{ grievance()!.resolutionRemarks }}</p>
+      </div>
+      }
+
       @if (grievance()!.status !== 'Closed') {
       <div class="actions-row">
         <button mat-flat-button color="primary" (click)="closeGrievance()">

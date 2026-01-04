@@ -61,6 +61,12 @@
     background-color: rgba(26, 35, 126, 0.05) !important;
 }
 
+
+.escalated-info {
+    display: flex;
+    align-items: center;
+}
+
 .citizen-info {
     display: flex;
     align-items: center;

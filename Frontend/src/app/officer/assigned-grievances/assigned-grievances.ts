@@ -7,7 +7,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { OfficerService } from '../../core/services/officer.service';
-import { OfficerGrievance } from '../../shared/models/officer-grievance.model';
+import { OfficerGrievance, GrievanceStatus } from '../../shared/models/officer-grievance.model';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
@@ -32,6 +32,7 @@ import { MatDividerModule } from '@angular/material/divider';
 export class AssignedGrievancesComponent implements OnInit {
 
   grievances = signal<OfficerGrievance[]>([]);
+  GrievanceStatus = GrievanceStatus; // Expose enum to template
   selected?: OfficerGrievance;
   form!: FormGroup;
 
@@ -41,7 +42,7 @@ export class AssignedGrievancesComponent implements OnInit {
   ) {
     this.form = this.fb.group({
       status: ['', Validators.required],
-      remarks: ['', Validators.required]
+      resolutionRemarks: ['']
     });
   }
 

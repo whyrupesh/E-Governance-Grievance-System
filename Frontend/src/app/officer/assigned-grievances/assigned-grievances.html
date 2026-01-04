@@ -13,7 +13,7 @@
         <thead>
           <tr>
             <th>ID</th>
-            <th>Citizen</th>
+            <th>Escalated</th>
             <th>Category</th>
             <th>Status</th>
             <th>Action</th>
@@ -23,10 +23,10 @@
           @for (g of grievances(); track g.id) {
           <tr [class.selected-row]="selected?.id === g.id">
             <td class="id-cell">#{{ g.grievanceNumber }}</td>
-            <td class="citizen-cell">
-              <div class="citizen-info">
-                <mat-icon class="avatar-icon">account_circle</mat-icon>
-                <span>{{ g.citizenName }}</span>
+            <td class="escalated-cell">
+              <div class="escalated-info" [style.color]="g.isEscalated ? 'red' : 'green'">
+                <mat-icon class="escalated-icon">{{ g.isEscalated ? 'warning' : 'check_circle' }}</mat-icon>
+                <span>{{ g.isEscalated ? 'Escalated' : 'Normal' }}</span>
               </div>
             </td>
             <td>{{ g.category }}</td>
@@ -79,16 +79,18 @@
         <mat-form-field appearance="outline" class="custom-field">
           <mat-label>New Status</mat-label>
           <mat-select formControlName="status">
-            <mat-option value="InReview">In Review</mat-option>
-            <mat-option value="Resolved">Resolved</mat-option>
+            <mat-option [value]="GrievanceStatus.InReview">In Review</mat-option>
+            <mat-option [value]="GrievanceStatus.Resolved">Resolved</mat-option>
           </mat-select>
         </mat-form-field>
 
+        @if(form.value.status === GrievanceStatus.Resolved) {
         <mat-form-field appearance="outline" class="custom-field">
           <mat-label>Officer Remarks</mat-label>
-          <textarea matInput rows="5" formControlName="remarks" placeholder="Enter resolution details..."></textarea>
+          <textarea matInput rows="5" formControlName="resolutionRemarks"
+            placeholder="Enter resolution details..."></textarea>
         </mat-form-field>
-
+        }
         <div class="form-actions">
           <button mat-flat-button color="primary" class="full-width-btn" (click)="submit()">
             Update Status
