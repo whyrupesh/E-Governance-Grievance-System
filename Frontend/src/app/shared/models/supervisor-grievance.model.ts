@@ -10,4 +10,8 @@ export interface SupervisorGrievance {
   resolutionRemarks : string;
   isEscalated: boolean;
   escalatedAt : string;
+  assignedTo : string;
+  feedback : string;
+  departmentId : number;
+  closingRemarks : string;
 }

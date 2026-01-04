@@ -32,7 +32,10 @@ public class GrievanceService : IGrievanceService
             DepartmentId = category.DepartmentId,
             Description = dto.Description,
             GrievanceNumber = $"GRV-{DateTime.UtcNow.Ticks}",
-            Status = GrievanceStatus.Submitted
+            Status = GrievanceStatus.Submitted,
+            AssignedTo = "",
+            Feedback = ""
+            
         };
 
         _context.Grievances.Add(grievance);

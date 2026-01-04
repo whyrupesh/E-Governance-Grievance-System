@@ -1,110 +1,151 @@
 @if (grievance()) {
 <div class="detail-container fade-in">
 
-  <!-- HEADER CARD -->
-  <mat-card class="header-card">
-    <div class="header-row">
-      <div>
-        <h2>
-          Grievance #{{ grievance()!.grievanceNumber }}
-        </h2>
-
-        <span class="status-pill {{ grievance()!.status.toLowerCase() }}">
-          {{ grievance()!.status }}
-        </span>
-      </div>
-
-      <div class="escalate-box">
-        <span class="label">Escalated</span>
-        <mat-slide-toggle
-          color="warn"
-          [checked]="grievance()!.isEscalated"
-          [disabled]="grievance()!.status === 'Closed'"
-          (change)="onEscalateToggle()">
-        </mat-slide-toggle>
-      </div>
+  <!-- HEADER -->
+  <div class="header-section">
+    <div class="title-group">
+      <h2>
+        Grievance <span class="grievance-id">#{{ grievance()!.grievanceNumber }}</span>
+      </h2>
     </div>
-  </mat-card>
+    <span class="status-pill {{ grievance()!.status.toLowerCase() }}">
+      {{ grievance()!.status }}
+    </span>
+  </div>
 
-  <!-- DETAILS -->
-  <mat-card class="info-card">
-    <div class="info-grid">
-      <div class="info-item">
-        <label>Category</label>
-        <span>{{ grievance()!.category }}</span>
+  <!-- MAIN CONTENT -->
+  <div class="main-content">
+
+    <!-- DETAILS CARD -->
+    <mat-card class="info-card">
+      <div class="info-grid">
+        <div class="info-item">
+          <label>Category</label>
+          <span>{{ grievance()!.category }}</span>
+        </div>
+
+        <div class="info-item">
+          <label>Department</label>
+          <span>{{ grievance()!.department }}</span>
+        </div>
+
+        <div class="info-item">
+          <label>Created</label>
+          <span>{{ grievance()!.createdAt | date:'mediumDate' }} • {{ grievance()!.createdAt | date:'shortTime'
+            }}</span>
+        </div>
       </div>
 
-      <div class="info-item">
-        <label>Department</label>
-        <span>{{ grievance()!.department }}</span>
+      <div class="description-section">
+        <label>Description</label>
+        <p>{{ grievance()!.description }}</p>
       </div>
 
-      <div class="info-item">
-        <label>Created</label>
-        <span>{{ grievance()!.createdAt | date:'medium' }}</span>
+      @if (grievance()!.status !== 'Closed') {
+      <div class="actions-row">
+        <button mat-flat-button color="primary" (click)="closeGrievance()">
+          <mat-icon>check_circle</mat-icon>
+          Close Grievance
+        </button>
       </div>
-    </div>
+      }
+    </mat-card>
 
-    <div class="description">
-      <label>Description</label>
-      <p>{{ grievance()!.description }}</p>
-    </div>
-  </mat-card>
+    <!-- TIMELINE CARD -->
+    <mat-card class="timeline-card">
+      <div class="timeline">
+        <div class="progress-track"></div>
 
-  <!-- TIMELINE -->
-  <mat-card class="timeline-card">
-    <div class="timeline">
+        <!-- Submitted -->
+        <div class="timeline-step" [class.active]="isReached('Submitted')">
+          <div class="icon-wrapper">
+            <mat-icon>send</mat-icon>
+          </div>
+          <span class="step-label">Submitted</span>
+        </div>
 
-      <div class="progress-line"></div>
+        <!-- Assigned -->
+        <div class="timeline-step" [class.active]="isReached('Assigned')">
+          <div class="icon-wrapper">
+            <mat-icon>assignment_ind</mat-icon>
+          </div>
+          <span class="step-label">Assigned</span>
+        </div>
 
-      <div
-        class="timeline-step"
-        [class.done]="isReached('Submitted')">
-        <mat-icon>send</mat-icon>
-        <span>Submitted</span>
-      </div>
+        <!-- In Review -->
+        <div class="timeline-step" [class.active]="isReached('InReview')">
+          <div class="icon-wrapper">
+            <mat-icon>rate_review</mat-icon>
+          </div>
+          <span class="step-label">In Review</span>
+        </div>
 
-      <div
-        class="timeline-step"
-        [class.done]="isReached('Assigned')">
-        <mat-icon>assignment_ind</mat-icon>
-        <span>Assigned</span>
-      </div>
+        <!-- Resolved -->
+        <div class="timeline-step" [class.active]="isReached('Resolved')">
+          <div class="icon-wrapper">
+            <mat-icon>done_all</mat-icon>
+          </div>
+          <span class="step-label">Resolved</span>
+        </div>
 
-      <div
-        class="timeline-step"
-        [class.done]="isReached('InReview')">
-        <mat-icon>rate_review</mat-icon>
-        <span>In Review</span>
-      </div>
-
-      <div
-        class="timeline-step"
-        [class.done]="isReached('Resolved')">
-        <mat-icon>check_circle</mat-icon>
-        <span>Resolved</span>
-      </div>
-
-      <div
-        class="timeline-step"
-        [class.done]="isReached('Closed')">
-        <mat-icon>lock</mat-icon>
-        <span>Closed</span>
-      </div>
-
-    </div>
-  </mat-card>
-
-  <!-- ESCALATED WARNING -->
-  @if (grievance()!.isEscalated) {
-    <mat-card class="escalated-box">
-      <mat-icon color="warn">warning</mat-icon>
-      <div>
-        <strong>Escalated case</strong>
-        <p>This grievance has been escalated for higher-level review.</p>
+        <!-- Closed -->
+        <div class="timeline-step" [class.active]="isReached('Closed')">
+          <div class="icon-wrapper">
+            <mat-icon>lock</mat-icon>
+          </div>
+          <span class="step-label">Closed</span>
+        </div>
       </div>
     </mat-card>
-  }
+
+    <!-- ESCALATED WARNING (Full Width if present) -->
+    @if (grievance()!.isEscalated) {
+    <mat-card class="escalated-warning">
+      <mat-icon class="warning-icon">error</mat-icon>
+      <div class="warning-text">
+        <strong>Escalated Case</strong>
+        <p>This grievance has been flagged for higher-level review and requires immediate attention.</p>
+      </div>
+    </mat-card>
+    }
+
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+
+    <!-- ASSIGN CARD -->
+    <mat-card class="assign-card">
+      <h3>Assign Officer</h3>
+      <div class="assign-controls">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Select Officer</mat-label>
+          <mat-select [(ngModel)]="selectedOfficerId">
+            @for (officer of officers(); track officer.id) {
+            <mat-option [value]="officer.id">{{ officer.fullName }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <button mat-raised-button color="accent" class="assign-btn"
+          [disabled]="!selectedOfficerId || grievance()!.status === 'Closed'" (click)="assignOfficer()">
+          Assign Officer
+        </button>
+      </div>
+    </mat-card>
+
+    <!-- ESCALATION CARD -->
+    <mat-card class="escalate-card" [class.active]="grievance()!.isEscalated">
+      <div class="escalate-label">
+        <strong>Escalation Status</strong>
+        <span>{{ grievance()!.isEscalated ? 'Escalated' : 'Normal Priority' }}</span>
+      </div>
+      <mat-slide-toggle color="warn" [checked]="grievance()!.isEscalated" [disabled]="grievance()!.status === 'Closed'"
+        (change)="onEscalateToggle()">
+      </mat-slide-toggle>
+    </mat-card>
+
+  </div>
 
 </div>
 }

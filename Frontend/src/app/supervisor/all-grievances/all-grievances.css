@@ -5,25 +5,78 @@
   padding: 24px;
 }
 
+/* Header */
 .page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 20px;
 }
 
 .title {
-  font-size: 1.7rem;
+  font-size: 1.8rem;
   font-weight: 600;
+  margin-bottom: 4px;
 }
 
 .subtitle {
   color: #666;
+  font-size: 0.95rem;
+}
+
+/* Error */
+.error-box {
+  background: #fdecea;
+  color: #b71c1c;
+  padding: 14px;
+  border-radius: 8px;
+  margin: 16px;
+}
+
+/* Filters */
+.filter-card {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  padding: 16px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+  margin-bottom: 20px;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.filter-group label {
+  font-size: 0.8rem;
+  color: #555;
+  font-weight: 600;
+}
+
+.filter-group select {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 0.9rem;
+  background: #fafafa;
+}
+
+.filter-group select:focus {
+  outline: none;
+  border-color: #1976d2;
+  background: #fff;
 }
 
 /* Table */
-.table-wrapper {
-  background: white;
+.table-card {
+  background: #ffffff;
   border-radius: 12px;
   overflow-x: auto;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.06);
 }
 
 .grievance-table {
@@ -34,83 +87,109 @@
 .grievance-table th,
 .grievance-table td {
   padding: 14px 16px;
-  text-align: left;
   border-bottom: 1px solid #eee;
+  text-align: left;
 }
 
 .grievance-table th {
-  background: #fafafa;
+  background: #f9fafb;
   font-weight: 600;
+  font-size: 0.9rem;
+  color: #444;
 }
 
+.grievance-table tr:hover {
+  background: #fafafa;
+}
+
+/* Misc */
 .mono {
   font-family: monospace;
 }
 
 /* Status badge */
-.status {
+.status-badge {
   padding: 4px 12px;
   border-radius: 999px;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 600;
   text-transform: capitalize;
 }
 
-.status.submitted {
+.status-badge.submitted {
   background: #e3f2fd;
   color: #1565c0;
 }
 
-.status.assigned {
+.status-badge.assigned {
   background: #fff3e0;
   color: #ef6c00;
 }
 
-.status.inreview {
+.status-badge.inreview {
   background: #ede7f6;
   color: #5e35b1;
 }
 
-.status.resolved {
+.status-badge.resolved {
   background: #e8f5e9;
   color: #2e7d32;
 }
 
-.status.closed {
+.status-badge.closed {
   background: #eceff1;
   color: #455a64;
 }
 
-/* Loading */
-.loading-box {
-  height: 60vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: #666;
-}
-
-.spin {
-  font-size: 42px;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Empty */
-.empty-state {
+/* Action */
+.action-col {
   text-align: center;
-  padding: 60px;
-  color: #888;
 }
 
+.view-btn {
+  padding: 6px 14px;
+  font-size: 0.8rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  background: #1976d2;
+  color: #fff;
+}
+
+.view-btn:hover {
+  background: #125aa1;
+}
+
+/* Pagination */
+.pagination {
+  margin-top: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
+
+.page-btn {
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  background: #fff;
+  cursor: pointer;
+}
+
+.page-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.page-info {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* Animation */
 .fade-in {
-  animation: fade 0.3s ease;
+  animation: fade 0.25s ease;
 }
 
 @keyframes fade {

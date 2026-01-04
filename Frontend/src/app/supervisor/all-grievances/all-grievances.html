@@ -1,67 +1,126 @@
-<!-- @if (loading) {
-  <div class="loading-box">
-    <mat-icon class="spin">autorenew</mat-icon>
-    <p>Loading grievances...</p>
-  </div>
-} -->
-
-@if ( error) {
-<p class="error">{{ error }}</p>
+@if (error) {
+<div class="error-box">
+    {{ error }}
+</div>
+}
+@if(filteredGrievances().length === 0) {
+<div class="no-data-box">
+    <mat-icon>info</mat-icon>
+    <p>No grievances found matching the selected filters.</p>
+    <button mat-stroked-button color="primary" (click)="resetFilters()">
+        Reset Filters
+    </button>
+</div>
 }
 
-@if (grievances().length > 0) {
+@if (filteredGrievances().length > 0) {
+
 <div class="container fade-in">
 
+    <!-- Header -->
     <div class="page-header">
-        <h2 class="title">All Grievances</h2>
-        <p class="subtitle">Supervisor view of submitted grievances</p>
+        <div>
+            <h2 class="title">All Grievances</h2>
+            <p class="subtitle">Supervisor view of submitted grievances</p>
+        </div>
     </div>
 
-    <div class="table-wrapper">
+    <!-- Filters -->
+    <div class="filter-card">
+        <div class="filter-group">
+            <label>Category</label>
+            <select [ngModel]="filters().category" (ngModelChange)="updateCategory($event)">
+                <option value="">All</option>
+                @for (c of categories(); track c) {
+                <option [value]="c">{{ c }}</option>
+                }
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label>Department</label>
+            <select [ngModel]="filters().department" (ngModelChange)="updateDepartment($event)">
+                <option value="">All</option>
+                @for (d of departments(); track d) {
+                <option [value]="d">{{ d }}</option>
+                }
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label>Status</label>
+            <select [ngModel]="filters().status" (ngModelChange)="updateStatus($event)">
+                <option value="">All</option>
+                @for (s of statuses(); track s) {
+                <option [value]="s">{{ s }}</option>
+                }
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label>Sort by Date</label>
+            <select [ngModel]="sortOrder()" (ngModelChange)="updateSort($event)">
+                <option value="desc">Newest First</option>
+                <option value="asc">Oldest First</option>
+            </select>
+
+        </div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-card">
         <table class="grievance-table">
             <thead>
                 <tr>
-                    <th>Grievance No</th>
+                    <th>Grievance #</th>
                     <th>Category</th>
                     <th>Department</th>
                     <th>Status</th>
                     <th>Created</th>
-                    <th>Action</th>
+                    <th class="action-col">Action</th>
                 </tr>
             </thead>
 
             <tbody>
-                @for (g of grievances(); track g.grievanceNumber) {
+                @for (g of paginatedGrievances(); track g.grievanceNumber) {
                 <tr>
                     <td class="mono">{{ g.grievanceNumber }}</td>
                     <td>{{ g.category }}</td>
                     <td>{{ g.department }}</td>
 
                     <td>
-                        <span class="status" [ngClass]="g.status.toLowerCase()">
+                        <span class="status-badge {{ g.status.toLowerCase() }}">
                             {{ g.status }}
                         </span>
                     </td>
 
                     <td>{{ g.createdAt | date:'mediumDate' }}</td>
 
-                    <td>
-                        <button mat-icon-button color="primary" [routerLink]="['/supervisor/grievances', g.id]">
-                            <mat-icon>visibility</mat-icon>
+                    <td class="action-col">
+                        <button class="view-btn" [routerLink]="['/supervisor/grievances', g.id]">
+                            View
                         </button>
-
                     </td>
                 </tr>
                 }
             </tbody>
         </table>
     </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+        <button class="page-btn" (click)="prevPage()" [disabled]="page() === 1">
+            ‹ Prev
+        </button>
+
+        <span class="page-info">
+            Page {{ page() }} of {{ totalPages() }}
+        </span>
+
+        <button class="page-btn" (click)="nextPage()" [disabled]="page() === totalPages()">
+            Next ›
+        </button>
+    </div>
+
 </div>
 }
-
-<!-- @if (!loading && grievances().length === 0) {
-  <div class="empty-state">
-    <mat-icon>inbox</mat-icon>
-    <p>No grievances available.</p>
-  </div>
-} -->

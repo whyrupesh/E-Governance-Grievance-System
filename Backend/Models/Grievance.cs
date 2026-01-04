@@ -27,6 +27,8 @@ public class Grievance
 
     public string? ResolutionRemarks { get; set; }
 
+    public string AssignedTo { get; set; } = null!;
+    public string Feedback { get; set; } = null!;
 
     // Escalation
     public bool IsEscalated { get; set; } = false;

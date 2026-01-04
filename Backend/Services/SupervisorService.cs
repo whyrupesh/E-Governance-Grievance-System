@@ -61,7 +61,9 @@ public class SupervisorService : ISupervisorService
             IsEscalated = grievance.IsEscalated,
             ResolvedAt = grievance.ResolvedAt,
             ResolutionRemarks = grievance.ResolutionRemarks,
-            EscalatedAt = grievance.EscalatedAt
+            EscalatedAt = grievance.EscalatedAt,
+            AssignedTo = grievance.AssignedTo,
+            Feedback = grievance.Feedback
         };
     }
 
@@ -117,7 +119,78 @@ public class SupervisorService : ISupervisorService
         await _context.SaveChangesAsync();
     }
 
+    public async Task<GrievanceResponseDto> ChangeGrievanceStatusAsync(int grievanceId, string status)
+    {
+        var grievance = await _context.Grievances.FindAsync(grievanceId);
 
+        if (grievance == null)
+            throw new Exception("Grievance not found");
+
+        if (!Enum.TryParse<GrievanceStatus>(status, out var newStatus))
+            throw new Exception("Invalid status");
+
+        grievance.Status = newStatus;
+
+        if (newStatus == GrievanceStatus.Resolved)
+            grievance.ResolvedAt = DateTime.UtcNow;
+
+        _context.Grievances.Update(grievance);
+        await _context.SaveChangesAsync();
+
+        return await GetGrievanceByIdAsync(grievanceId);    
+    }
+
+    public async Task<GrievanceResponseDto> GiveResolutionRemarksAsync(int grievanceId, string remarks)
+    {
+        var grievance = await _context.Grievances.FindAsync(grievanceId);
+
+        if (grievance == null)
+            throw new Exception("Grievance not found");
+
+        grievance.ResolutionRemarks = remarks;
+        grievance.Status = GrievanceStatus.Closed;
+        grievance.ResolvedAt = DateTime.UtcNow;
+
+        _context.Grievances.Update(grievance);
+        await _context.SaveChangesAsync();
+
+        return await GetGrievanceByIdAsync(grievanceId);    
+    }
+
+    public async Task<GrievanceResponseDto> AssignGrievanceAsync(int grievanceId, int staffId)
+    {
+        var grievance = await _context.Grievances.FindAsync(grievanceId);
+
+        if (grievance == null)
+            throw new Exception("Grievance not found");
+
+        var staff = await _context.Users.FindAsync(staffId);
+        if (staff == null || staff.Role != UserRole.Officer)
+            throw new Exception("Invalid staff member");
+
+        grievance.AssignedTo = staff.FullName;
+        grievance.Status = GrievanceStatus.Assigned;
+
+        _context.Grievances.Update(grievance);
+        await _context.SaveChangesAsync();
+
+        return await GetGrievanceByIdAsync(grievanceId);    
+    }
+
+    public async Task<IEnumerable<object>> GetOfficersByDepartmentAsync(int DepartmentId)
+    {
+        var officers = await _context.Users
+            .Where(u => u.DepartmentId == DepartmentId && u.Role == UserRole.Officer)
+            .Select(u => new
+            {
+                u.Id,
+                u.FullName,
+                u.Email
+            })
+            .ToListAsync();
+
+        return officers;
+    }
 
 
 }

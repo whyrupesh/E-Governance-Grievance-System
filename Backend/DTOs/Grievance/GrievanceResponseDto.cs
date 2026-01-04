@@ -19,6 +19,9 @@ public class GrievanceResponseDto
     public DateTime? ResolvedAt { get; set; }
 
     public string ResolutionRemarks { get; set; } = "";
+
+    public string AssignedTo { get; set; } = ""; 
+    public string Feedback { get; set; } = "";
     
     public bool IsEscalated { get; set; }
 
