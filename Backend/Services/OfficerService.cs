@@ -94,6 +94,8 @@ public class OfficerService : IOfficerService
         if (grievance.DepartmentId != officer.DepartmentId)
             throw new Exception("Access denied");
 
+        Console.WriteLine(dto.ResolutionRemarks);
+        Console.WriteLine(dto.Status);
         grievance.Status = dto.Status;
 
         if (dto.Status == GrievanceStatus.Resolved)

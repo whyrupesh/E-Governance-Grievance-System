@@ -45,6 +45,14 @@ public class SupervisorController : ControllerBase
         return Ok(result);
     }
 
+    [HttpPost("grievances/{id}/close")]
+    public async Task<IActionResult> CloseGrievance(int id, [FromBody] string status)
+    {
+        var result = await _supervisorService.ChangeGrievanceStatusAsync(id, status);
+        return Ok(result);
+    }
+
+
     [HttpPost("grievances/{id}/remarks")]
     public async Task<IActionResult> GiveResolutionRemarks(int id, [FromBody] string remarks)
     {

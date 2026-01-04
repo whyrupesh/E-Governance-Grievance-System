@@ -34,11 +34,12 @@ public class OfficerController : ControllerBase
         return Ok(result);
     }
 
-    [HttpPut("grievances/{id}")]
+    [HttpPut("grievances/{id}/status")]
     public async Task<IActionResult> UpdateStatus(
         int id,
         [FromBody] UpdateGrievanceStatusDto dto)
     {
+        Console.WriteLine("UpdateStatus called");
         var officerId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         await _officerService.UpdateStatusAsync(id, officerId, dto);
         return NoContent();
