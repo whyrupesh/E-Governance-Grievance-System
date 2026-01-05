@@ -4,6 +4,9 @@ using Backend.Enums;
 using Backend.Helpers;
 using Backend.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Backend.Services;
 
@@ -29,7 +32,7 @@ public class AdminService : IAdminService
 
     public async Task<IEnumerable<DepartmentResponseDto>> GetDepartmentAsync()
     {
-        return await _context.Departments.Select( g => new DepartmentResponseDto
+        return await _context.Departments.Select(g => new DepartmentResponseDto
         {
             Id = g.Id,
             Name = g.Name,
@@ -98,6 +101,16 @@ public class AdminService : IAdminService
             DepartmentId = dto.DepartmentId
         });
 
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task DeleteOfficerAsync(int id)
+    {
+        var officer = await _context.Users.FindAsync(id);
+        if (officer == null)
+            throw new Exception("Officer not found");
+
+        _context.Users.Remove(officer);
         await _context.SaveChangesAsync();
     }
 }

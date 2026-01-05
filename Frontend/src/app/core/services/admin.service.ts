@@ -16,7 +16,7 @@ export class AdminService {
     return this.http.get<Department[]>(`${this.API_URL}/departments`);
   }
 
-  addDepartment(name: string, description : string) {
+  addDepartment(name: string, description: string) {
     return this.http.post(`${this.API_URL}/departments`, { name, description });
   }
 
@@ -37,5 +37,9 @@ export class AdminService {
   createOfficer(data: any) {
     console.log(data);
     return this.http.post(`${this.API_URL}/officers`, data);
+  }
+
+  deleteOfficer(id: number) {
+    return this.http.delete(`${this.API_URL}/officers/${id}`);
   }
 }

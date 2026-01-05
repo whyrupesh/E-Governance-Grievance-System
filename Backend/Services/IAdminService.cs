@@ -1,4 +1,6 @@
 using Backend.DTOs.Admin;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Backend.Services;
 
@@ -11,4 +13,5 @@ public interface IAdminService
 
     Task<IEnumerable<OfficerResponseDto>> GetOfficersAsync();
     Task CreateOfficerAsync(CreateOfficerDto dto);
+    Task DeleteOfficerAsync(int id);
 }

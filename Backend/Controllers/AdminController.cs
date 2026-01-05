@@ -58,4 +58,11 @@ public class AdminController : ControllerBase
         await _adminService.CreateOfficerAsync(dto);
         return Ok();
     }
+
+    [HttpDelete("officers/{id}")]
+    public async Task<IActionResult> DeleteOfficer(int id)
+    {
+        await _adminService.DeleteOfficerAsync(id);
+        return NoContent();
+    }
 }

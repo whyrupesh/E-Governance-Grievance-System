@@ -8,7 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
-import { MatListModule } from '@angular/material/list';
+import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 
@@ -23,7 +23,7 @@ import { MatDividerModule } from '@angular/material/divider';
     MatInputModule,
     MatSelectModule,
     MatButtonModule,
-    MatListModule,
+    MatTableModule,
     MatIconModule,
     MatDividerModule
   ],
@@ -32,8 +32,9 @@ import { MatDividerModule } from '@angular/material/divider';
 })
 export class OfficersComponent implements OnInit {
 
-  officers = signal<Officer[]>([]);
+  dataSource = new MatTableDataSource<Officer>([]);
   departments = signal<Department[]>([]);
+  displayedColumns: string[] = ['name', 'email', 'actions'];
   form!: FormGroup;
 
   constructor(
@@ -55,7 +56,7 @@ export class OfficersComponent implements OnInit {
 
   load() {
     this.adminService.getOfficers()
-      .subscribe(res => this.officers.set(res));
+      .subscribe(res => this.dataSource.data = res);
   }
 
   loadDepartments() {
@@ -72,5 +73,13 @@ export class OfficersComponent implements OnInit {
         this.form.reset();
         this.load();
       });
+  }
+
+  delete(id: number) {
+    if (confirm('Are you sure you want to delete this officer?')) {
+      this.adminService.deleteOfficer(id).subscribe(() => {
+        this.load();
+      });
+    }
   }
 }

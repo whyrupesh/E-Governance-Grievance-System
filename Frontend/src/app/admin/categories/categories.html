@@ -12,21 +12,43 @@
       <div class="panel-header">
         <h3>Existing Categories</h3>
       </div>
-      <mat-list>
-        @for (c of categories(); track c.id) {
-        <mat-list-item class="list-item">
-          <mat-icon matListItemIcon class="item-icon">category</mat-icon>
-          <div matListItemTitle class="item-title">{{ c.name }}</div>
-          <div matListItemLine class="item-subtitle">Dept Name: <span>{{ c.departmentName }}</span></div>
-        </mat-list-item>
-        <mat-divider></mat-divider>
-        }
-        @if (categories.length === 0) {
-        <div class="empty-state">
-          <p>No categories found.</p>
-        </div>
-        }
-      </mat-list>
+      <div class="filter-container">
+        <mat-form-field appearance="outline" class="filter-field">
+          <mat-label>Search Categories</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Search..." #input>
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+      </div>
+
+      <div class="table-container">
+        <table mat-table [dataSource]="dataSource" matSort>
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Category Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+          </ng-container>
+
+          <!-- Department Column -->
+          <ng-container matColumnDef="departmentName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Department </th>
+            <td mat-cell *matCellDef="let element"> {{element.departmentName}} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+          <!-- Row shown when there is no matching data. -->
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+          </tr>
+        </table>
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of categories"></mat-paginator>
+
+        <!-- No data message handled by *matNoDataRow above for filter, 
+             but initial empty state can be checked on dataSource.data.length if needed, 
+             though table handles empty reasonably well. -->
+      </div>
     </div>
 
     <!-- Right: Add Form -->

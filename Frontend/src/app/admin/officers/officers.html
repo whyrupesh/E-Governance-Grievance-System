@@ -12,21 +12,34 @@
       <div class="panel-header">
         <h3>Registered Officers</h3>
       </div>
-      <mat-list>
-        @for (o of officers(); track o.id) {
-        <mat-list-item class="list-item">
-          <mat-icon matListItemIcon class="item-icon">badge</mat-icon>
-          <div matListItemTitle class="item-title">{{ o.name }}</div>
-          <div matListItemLine class="item-subtitle">{{ o.email }} • {{ o.department }}</div>
-        </mat-list-item>
-        <mat-divider></mat-divider>
-        }
-        <!-- @if (officers.length === 0) {
-        <div class="empty-state">
-          <p>No officers found.</p>
-        </div>
-        } -->
-      </mat-list>
+      <div class="table-container">
+        <table mat-table [dataSource]="dataSource">
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+          </ng-container>
+
+          <!-- Email Column -->
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef> Email </th>
+            <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+          </ng-container>
+
+          <!-- Actions Column -->x
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Actions </th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-icon-button color="warn" (click)="delete(element.id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
     </div>
 
     <!-- Right: Add Form -->
@@ -63,7 +76,7 @@
             }
           </mat-select>
         </mat-form-field>
-       
+
 
         <button mat-flat-button color="primary" class="submit-btn" (click)="add()">
           <mat-icon>person_add</mat-icon>
