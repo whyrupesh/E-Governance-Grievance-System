@@ -18,6 +18,14 @@
     </div>
 
     <mat-nav-list>
+      <!-- Common -->
+      <a mat-list-item routerLink="/notifications" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>notifications</mat-icon>
+        <span matListItemTitle>Notifications</span>
+      </a>
+
+      <mat-divider style="margin: 8px 0;"></mat-divider>
+
       <!-- Citizen -->
       @if (authService.hasRole('Citizen')) {
       <a mat-list-item routerLink="/grievances" routerLinkActive="active-link">

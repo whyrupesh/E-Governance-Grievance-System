@@ -16,6 +16,7 @@ public class AppDbContext : DbContext
     public DbSet<Department> Departments => Set<Department>();
     public DbSet<Category> Categories => Set<Category>();
     public DbSet<Grievance> Grievances => Set<Grievance>();
+    public DbSet<Notification> Notifications => Set<Notification>();
 
 
     //Prevents duplicate registrations.

@@ -9,10 +9,12 @@ namespace Backend.Services;
 public class OfficerService : IOfficerService
 {
     private readonly AppDbContext _context;
+    private readonly INotificationService _notificationService;
 
-    public OfficerService(AppDbContext context)
+    public OfficerService(AppDbContext context, INotificationService notificationService)
     {
         _context = context;
+        _notificationService = notificationService;
     }
 
     public async Task<IEnumerable<GrievanceResponseDto>> GetAssignedGrievancesAsync(int officerId)
@@ -96,6 +98,8 @@ public class OfficerService : IOfficerService
 
         Console.WriteLine(dto.ResolutionRemarks);
         Console.WriteLine(dto.Status);
+
+        var oldStatus = grievance.Status;
         grievance.Status = dto.Status;
 
         if (dto.Status == GrievanceStatus.Resolved)
@@ -105,5 +109,29 @@ public class OfficerService : IOfficerService
         }
 
         await _context.SaveChangesAsync();
+
+        if (oldStatus != dto.Status)
+        {
+            // Notify Citizen
+            await _notificationService.CreateNotificationAsync(
+                grievance.CitizenId,
+                $"Your grievance #{grievance.GrievanceNumber} status has been updated to {dto.Status}.",
+                grievance.Id
+            );
+
+            // Notify Supervisors
+            var supervisors = await _context.Users
+                .Where(u => u.Role == UserRole.Supervisor)
+                .ToListAsync();
+
+            foreach (var supervisor in supervisors)
+            {
+                await _notificationService.CreateNotificationAsync(
+                   supervisor.Id,
+                   $"Grievance #{grievance.GrievanceNumber} status updated to {dto.Status} by {officer.FullName}.",
+                   grievance.Id
+               );
+            }
+        }
     }
 }

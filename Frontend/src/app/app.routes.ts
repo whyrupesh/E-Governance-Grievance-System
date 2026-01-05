@@ -22,6 +22,14 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
 
+      // -------- Shared --------
+      {
+        path: 'notifications',
+        loadComponent: () =>
+          import('./features/notification-list/notification-list.component')
+            .then(m => m.NotificationListComponent)
+      },
+
       // -------- Citizen --------
       {
         path: 'grievances',
