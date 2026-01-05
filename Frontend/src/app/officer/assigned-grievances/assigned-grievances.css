@@ -179,3 +179,34 @@
 .animate-slide-in {
     animation: slideIn 0.3s ease-out forwards;
 }
+
+/* Layout Wrapper for Left Column */
+.list-column {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Filters */
+.filters-container {
+    display: flex;
+    gap: 16px;
+    padding: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.filter-field {
+    min-width: 180px;
+    font-size: 14px;
+    margin-bottom: -1.25em;
+}
+
+.reset-btn {
+    margin-top: 16px;
+    border-radius: 20px;
+}
+
+.empty-row td {
+    border-bottom: none;
+}

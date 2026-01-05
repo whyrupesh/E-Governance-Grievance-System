@@ -5,6 +5,42 @@
     <p class="page-subtitle">Track and manage your submitted complaints</p>
   </div>
 
+  <!-- Filters & Sorting -->
+  <div class="filters-container glass-panel">
+
+    <!-- Status Filter -->
+    <mat-form-field appearance="outline" class="filter-field">
+      <mat-label>Status</mat-label>
+      <mat-select [ngModel]="filterStatus()" (ngModelChange)="filterStatus.set($event); onFilterChange()">
+        <mat-option value="All">All Statuses</mat-option>
+        @for (status of statuses; track status) {
+        <mat-option [value]="status">{{ status }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Category Filter -->
+    <mat-form-field appearance="outline" class="filter-field">
+      <mat-label>Category</mat-label>
+      <mat-select [ngModel]="filterCategory()" (ngModelChange)="filterCategory.set($event); onFilterChange()">
+        <mat-option value="All">All Categories</mat-option>
+        @for (cat of categories(); track cat.id) {
+        <mat-option [value]="cat.name">{{ cat.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Sort By Date -->
+    <mat-form-field appearance="outline" class="filter-field">
+      <mat-label>Sort By Date</mat-label>
+      <mat-select [ngModel]="sortOrder()" (ngModelChange)="sortOrder.set($event)">
+        <mat-option value="newest">Newest First</mat-option>
+        <mat-option value="oldest">Oldest First</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </div>
+
   <div class="glass-panel table-container">
     <table class="premium-table">
       <thead>
@@ -17,8 +53,32 @@
         </tr>
       </thead>
 
+      @if (grievances().length === 0 && !loading) {
       <tbody>
-        @for (g of grievances(); track g.grievanceNumber) {
+        <tr>
+          <td colspan="5" class="empty-state">
+            <mat-icon>inbox</mat-icon>
+            <p>No grievances found</p>
+          </td>
+        </tr>
+      </tbody>
+      }
+      @else if (filteredGrievances().length === 0) {
+      <tbody>
+        <tr>
+          <td colspan="5" class="empty-state">
+            <mat-icon>search_off</mat-icon>
+            <p>No grievances found matching your filters</p>
+            <button mat-stroked-button color="primary" class="reset-btn" (click)="resetFilters()">
+              Reset Filters
+            </button>
+          </td>
+        </tr>
+      </tbody>
+      }
+      @else {
+      <tbody>
+        @for (g of paginatedGrievances(); track g.grievanceNumber) {
         <tr>
           <td class="id-cell">#{{ g.grievanceNumber }}</td>
           <td class="category-cell">{{ g.category }}</td>
@@ -34,11 +94,15 @@
             <button mat-icon-button color="primary" class="action-btn" [routerLink]="['/grievances', g.id]">
               <mat-icon>visibility</mat-icon>
             </button>
-
           </td>
         </tr>
         }
       </tbody>
+      }
     </table>
+
+    <mat-paginator [length]="filteredGrievances().length" [pageSize]="pageSize()" [pageSizeOptions]="[5, 10, 25, 50]"
+      (page)="handlePageEvent($event)" showFirstLastButtons aria-label="Select page of grievances">
+    </mat-paginator>
   </div>
 </div>

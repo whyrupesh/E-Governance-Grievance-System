@@ -2,6 +2,7 @@ import { Component, OnInit, signal, computed, effect } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
@@ -16,6 +17,7 @@ import { SupervisorGrievance } from '../../shared/models/supervisor-grievance.mo
     DatePipe,
     MatIconModule,
     MatButtonModule,
+    MatPaginatorModule,
     RouterLink,
     FormsModule
   ],
@@ -38,10 +40,10 @@ export class SupervisorGrievancesComponent implements OnInit {
   sortOrder = signal<'asc' | 'desc'>('desc');
 
   /* Pagination */
-  page = signal(1);
-  pageSize = 5;
+  pageIndex = signal(0);
+  pageSize = signal(10);
 
-  constructor(private supervisorService: SupervisorService) {}
+  constructor(private supervisorService: SupervisorService) { }
 
   ngOnInit() {
     this.supervisorService.getAll().subscribe({
@@ -53,7 +55,7 @@ export class SupervisorGrievancesComponent implements OnInit {
     effect(() => {
       this.filters();
       this.sortOrder();
-      this.page.set(1);
+      this.pageIndex.set(0);
     });
   }
 
@@ -74,29 +76,29 @@ export class SupervisorGrievancesComponent implements OnInit {
   /* ---------- FILTER + SORT ---------- */
 
   updateCategory(value: string) {
-  this.filters.set({
-    ...this.filters(),
-    category: value
-  });
-}
+    this.filters.set({
+      ...this.filters(),
+      category: value
+    });
+  }
 
-updateDepartment(value: string) {
-  this.filters.set({
-    ...this.filters(),
-    department: value
-  });
-}
+  updateDepartment(value: string) {
+    this.filters.set({
+      ...this.filters(),
+      department: value
+    });
+  }
 
-updateStatus(value: string) {
-  this.filters.set({
-    ...this.filters(),
-    status: value
-  });
-}
+  updateStatus(value: string) {
+    this.filters.set({
+      ...this.filters(),
+      status: value
+    });
+  }
 
-updateSort(value: 'asc' | 'desc') {
-  this.sortOrder.set(value);
-}
+  updateSort(value: 'asc' | 'desc') {
+    this.sortOrder.set(value);
+  }
 
 
   filteredGrievances = computed(() => {
@@ -137,24 +139,13 @@ updateSort(value: 'asc' | 'desc') {
 
   /* ---------- PAGINATION ---------- */
 
-  totalPages = computed(() =>
-    Math.ceil(this.filteredGrievances().length / this.pageSize)
-  );
-
   paginatedGrievances = computed(() => {
-    const start = (this.page() - 1) * this.pageSize;
-    return this.filteredGrievances().slice(start, start + this.pageSize);
+    const start = this.pageIndex() * this.pageSize();
+    return this.filteredGrievances().slice(start, start + this.pageSize());
   });
 
-  nextPage() {
-    if (this.page() < this.totalPages()) {
-      this.page.update(p => p + 1);
-    }
-  }
-
-  prevPage() {
-    if (this.page() > 1) {
-      this.page.update(p => p - 1);
-    }
+  handlePageEvent(e: PageEvent) {
+    this.pageIndex.set(e.pageIndex);
+    this.pageSize.set(e.pageSize);
   }
 }
