@@ -4,7 +4,7 @@ namespace Backend.Services;
 
 public interface IReportService
 {
-    Task<IEnumerable<StatusCountDto>> GetGrievanceCountByStatusAsync();
-    Task<IEnumerable<DepartmentPerformanceDto>> GetDepartmentPerformanceAsync();
-    Task<IEnumerable<CategoryCountDto>> GetGrievanceCountByCategoryAsync();
+    Task<IEnumerable<StatusCountDto>> GetGrievanceCountByStatusAsync(int? departmentId = null);
+    Task<IEnumerable<DepartmentPerformanceDto>> GetDepartmentPerformanceAsync(int? departmentId = null);
+    Task<IEnumerable<CategoryCountDto>> GetGrievanceCountByCategoryAsync(int? departmentId = null);
 }

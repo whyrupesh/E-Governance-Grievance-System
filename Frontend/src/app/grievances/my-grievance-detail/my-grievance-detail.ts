@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { GrievanceService } from '../../core/services/grievance.service';
 import { Grievance } from '../../shared/models/grievance.model';
 import { Location } from '@angular/common';
+import { NotificationService } from '../../core/services/notification.service';
 
 
 @Component({
@@ -23,15 +24,16 @@ export class MyGrievanceDetail implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private grievanceService: GrievanceService,
-    private location: Location
-  ) {}
+    private location: Location,
+    private notificationService: NotificationService
+  ) { }
 
   isReached(step: string): boolean {
-  const order = ['Submitted','Assigned','InReview', 'Resolved','Closed'];
-  const current = this.grievance()?.status;
+    const order = ['Submitted', 'Assigned', 'InReview', 'Resolved', 'Closed'];
+    const current = this.grievance()?.status;
 
-  return order.indexOf(current!) >= order.indexOf(step);
-}
+    return order.indexOf(current!) >= order.indexOf(step);
+  }
 
   deleteGrievance() {
     const id = this.grievance()?.id;
@@ -39,11 +41,11 @@ export class MyGrievanceDetail implements OnInit {
 
     this.grievanceService.deleteMyGrievance(id).subscribe({
       next: () => {
-        alert('Grievance deleted successfully.');
+        this.notificationService.success('Grievance deleted successfully.');
         this.location.back();
       },
       error: () => {
-        alert('Failed to delete the grievance. Please try again later.');
+        this.notificationService.error('Failed to delete the grievance. Please try again later.');
       }
     });
   }
@@ -61,5 +63,3 @@ export class MyGrievanceDetail implements OnInit {
     });
   }
 }
-
-

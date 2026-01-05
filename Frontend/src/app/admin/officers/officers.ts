@@ -11,6 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
+import { NotificationService } from '../../core/services/notification.service';
 
 @Component({
   selector: 'app-officers',
@@ -39,7 +40,8 @@ export class OfficersComponent implements OnInit {
 
   constructor(
     private adminService: AdminService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private notificationService: NotificationService
   ) {
     this.form = this.fb.group({
       fullName: ['', Validators.required],
@@ -69,7 +71,7 @@ export class OfficersComponent implements OnInit {
 
     this.adminService.createOfficer(this.form.value)
       .subscribe(() => {
-        alert('Officer registered successfully');
+        this.notificationService.success('Officer registered successfully');
         this.form.reset();
         this.load();
       });

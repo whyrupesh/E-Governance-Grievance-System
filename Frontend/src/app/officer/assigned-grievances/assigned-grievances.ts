@@ -1,30 +1,33 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, Validators, ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTableModule } from '@angular/material/table';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { OfficerService } from '../../core/services/officer.service';
-import { OfficerGrievance, GrievanceStatus } from '../../shared/models/officer-grievance.model';
-
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { OfficerService } from '../../core/services/officer.service';
+import { NotificationService } from '../../core/services/notification.service';
+import { OfficerGrievance, GrievanceStatus } from '../../shared/models/officer-grievance.model';
 
 @Component({
   selector: 'app-assigned-grievances',
   standalone: true,
   imports: [
     CommonModule,
-    ReactiveFormsModule,
     MatCardModule,
-    MatFormFieldModule,
+    MatButtonModule,
+    MatTableModule,
     MatSelectModule,
     MatInputModule,
-    MatButtonModule,
+    MatFormFieldModule,
     MatIconModule,
-    MatDividerModule
+    MatDividerModule,
+    ReactiveFormsModule
   ],
   templateUrl: './assigned-grievances.html',
   styleUrls: ['./assigned-grievances.css']
@@ -32,16 +35,17 @@ import { MatDividerModule } from '@angular/material/divider';
 export class AssignedGrievancesComponent implements OnInit {
 
   grievances = signal<OfficerGrievance[]>([]);
-  GrievanceStatus = GrievanceStatus; // Expose enum to template
-  selected?: OfficerGrievance;
+  selected: OfficerGrievance | undefined;
   form!: FormGroup;
+  GrievanceStatus = GrievanceStatus;
 
   constructor(
     private officerService: OfficerService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private notificationService: NotificationService
   ) {
     this.form = this.fb.group({
-      status: ['', Validators.required],
+      status: [null, Validators.required],
       resolutionRemarks: ['']
     });
   }
@@ -58,6 +62,8 @@ export class AssignedGrievancesComponent implements OnInit {
   select(g: OfficerGrievance) {
     this.selected = g;
     this.form.reset();
+    // Not patching status because enum mismatch risk and "Update" intent usually starts fresh or requires mapping.
+    // If needed we can map later.
   }
 
   submit() {
@@ -66,7 +72,7 @@ export class AssignedGrievancesComponent implements OnInit {
     this.officerService
       .updateStatus(this.selected.id, this.form.value)
       .subscribe(() => {
-        alert('Status updated');
+        this.notificationService.success('Status updated successfully');
         this.selected = undefined;
         this.load();
       });

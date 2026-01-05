@@ -1,0 +1,7 @@
+@import '../../admin/reports/analytics.css';
+
+.analytics-container {
+    padding: 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+}

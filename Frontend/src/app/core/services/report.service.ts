@@ -29,7 +29,7 @@ export class ReportService {
 
     constructor(private http: HttpClient) { }
 
-    getStatusCounts(): Observable<StatusCount[]> {
+    getGrievanceCountByStatus(): Observable<StatusCount[]> {
         return this.http.get<StatusCount[]>(`${this.API_URL}/status-count`);
     }
 

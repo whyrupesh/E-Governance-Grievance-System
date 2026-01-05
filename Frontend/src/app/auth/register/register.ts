@@ -8,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { RouterModule, Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../core/services/auth.service';
+import { NotificationService } from '../../core/services/notification.service';
 
 @Component({
   selector: 'app-register',
@@ -32,7 +33,8 @@ export class RegisterComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private notificationService: NotificationService
   ) {
     this.registerForm = this.fb.group({
       fullName: ['', Validators.required],
@@ -46,10 +48,10 @@ export class RegisterComponent {
       this.authService.register(this.registerForm.value)
         .subscribe({
           next: () => {
-            alert('Registration Successful');
+            this.notificationService.success('Registration Successful');
             this.router.navigate(['/login']);
           },
-          error: err => alert('Registration Failed')
+          error: err => this.notificationService.error('Registration Failed')
         });
     }
   }

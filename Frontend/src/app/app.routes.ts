@@ -54,9 +54,11 @@ export const routes: Routes = [
         path: 'officer',
         canActivate: [RoleGuard],
         data: { roles: ['Officer'] },
-        loadComponent: () =>
-          import('./officer/assigned-grievances/assigned-grievances')
-            .then(m => m.AssignedGrievancesComponent)
+        children: [
+          { path: 'assigned-grievances', loadComponent: () => import('./officer/assigned-grievances/assigned-grievances').then(m => m.AssignedGrievancesComponent) },
+          { path: 'analytics', loadComponent: () => import('./officer/reports/officer-analytics').then(m => m.OfficerAnalyticsComponent) },
+          { path: '', redirectTo: 'assigned-grievances', pathMatch: 'full' }
+        ]
       },
 
       // -------- Supervisor --------
@@ -64,15 +66,12 @@ export const routes: Routes = [
         path: 'supervisor',
         canActivate: [RoleGuard],
         data: { roles: ['Supervisor'] },
-        loadComponent: () =>
-          import('./supervisor/all-grievances/all-grievances')
-            .then(m => m.SupervisorGrievancesComponent)
-      },
-      {
-        path: 'supervisor/grievances/:id',
-        loadComponent: () =>
-          import('./supervisor/supervisor-grievance-detail/supervisor-grievance-detail')
-            .then(m => m.SupervisorGrievanceDetailComponent)
+        children: [
+          { path: 'all-grievances', loadComponent: () => import('./supervisor/all-grievances/all-grievances').then(m => m.SupervisorGrievancesComponent) },
+          { path: 'detail/:id', loadComponent: () => import('./supervisor/supervisor-grievance-detail/supervisor-grievance-detail').then(m => m.SupervisorGrievanceDetailComponent) },
+          { path: 'analytics', loadComponent: () => import('./supervisor/reports/supervisor-analytics').then(m => m.SupervisorAnalyticsComponent) },
+          { path: '', redirectTo: 'all-grievances', pathMatch: 'full' }
+        ]
       },
 
       // -------- Admin --------

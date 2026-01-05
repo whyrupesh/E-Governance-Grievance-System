@@ -15,9 +15,16 @@ public class ReportService : IReportService
     }
 
     // 1️⃣ Grievance count by status
-    public async Task<IEnumerable<StatusCountDto>> GetGrievanceCountByStatusAsync()
+    public async Task<IEnumerable<StatusCountDto>> GetGrievanceCountByStatusAsync(int? departmentId = null)
     {
-        return await _context.Grievances
+        var query = _context.Grievances.AsQueryable();
+
+        if (departmentId.HasValue)
+        {
+            query = query.Where(g => g.DepartmentId == departmentId.Value);
+        }
+
+        return await query
             .GroupBy(g => g.Status)
             .Select(g => new StatusCountDto
             {
@@ -28,12 +35,19 @@ public class ReportService : IReportService
     }
 
     // 2️⃣ Department performance
-    public async Task<IEnumerable<DepartmentPerformanceDto>> GetDepartmentPerformanceAsync()
+    public async Task<IEnumerable<DepartmentPerformanceDto>> GetDepartmentPerformanceAsync(int? departmentId = null)
     {
-        var grievances = await _context.Grievances
+        var query = _context.Grievances
             .Include(g => g.Department)
             .Where(g => g.ResolvedAt != null)
-            .ToListAsync();
+            .AsQueryable();
+
+        if (departmentId.HasValue)
+        {
+            query = query.Where(g => g.DepartmentId == departmentId.Value);
+        }
+
+        var grievances = await query.ToListAsync();
 
         return grievances
             .GroupBy(g => g.Department.Name)
@@ -55,10 +69,18 @@ public class ReportService : IReportService
     }
 
     // 3️⃣ Grievance count by category
-    public async Task<IEnumerable<CategoryCountDto>> GetGrievanceCountByCategoryAsync()
+    public async Task<IEnumerable<CategoryCountDto>> GetGrievanceCountByCategoryAsync(int? departmentId = null)
     {
-        return await _context.Grievances
+        var query = _context.Grievances
             .Include(g => g.Category)
+            .AsQueryable();
+
+        if (departmentId.HasValue)
+        {
+            query = query.Where(g => g.DepartmentId == departmentId.Value);
+        }
+
+        return await query
             .GroupBy(g => g.Category.Name)
             .Select(g => new CategoryCountDto
             {

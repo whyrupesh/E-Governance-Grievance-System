@@ -48,7 +48,7 @@
       </div>
       }
 
-      @if (grievance()!.status !== 'Closed') {
+      @if (grievance()!.status === 'Resolved') {
       <div class="actions-row">
         <button mat-flat-button color="primary" (click)="closeGrievance()">
           <mat-icon>check_circle</mat-icon>

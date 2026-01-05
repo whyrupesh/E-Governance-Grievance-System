@@ -1,0 +1,9 @@
+/* Inherit main analytics styles */
+@import '../../admin/reports/analytics.css';
+
+/* Override or add specific styles here if needed */
+.analytics-container {
+    padding: 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+}

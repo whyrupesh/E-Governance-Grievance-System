@@ -132,7 +132,7 @@ export class AnalyticsComponent implements OnInit {
         this.loading.set(true);
 
         forkJoin({
-            status: this.reportService.getStatusCounts(),
+            status: this.reportService.getGrievanceCountByStatus(),
             dept: this.reportService.getDepartmentPerformance(),
             category: this.reportService.getGrievanceCountByCategory()
         }).subscribe({

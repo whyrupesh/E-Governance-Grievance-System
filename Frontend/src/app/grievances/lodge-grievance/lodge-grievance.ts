@@ -7,11 +7,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { GrievanceService } from '../../core/services/grievance.service';
 import { CommonModule } from '@angular/common';
-
 import { MatIconModule } from '@angular/material/icon';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { Category } from '../../shared/models/admin.model';
-import { Router } from '@angular/router';
+import { NotificationService } from '../../core/services/notification.service';
 
 
 @Component({
@@ -40,7 +39,8 @@ export class LodgeGrievanceComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private grievanceService: GrievanceService,
-    private router: Router
+    private router: Router,
+    private notificationService: NotificationService
   ) {
     this.form = this.fb.group({
       categoryId: ['', Validators.required],
@@ -48,10 +48,10 @@ export class LodgeGrievanceComponent implements OnInit {
     });
   }
 
-  async ngOnInit(){
-     this.grievanceService.getCategories().subscribe( res =>{
-        this.categories.set(res);
-      })
+  async ngOnInit() {
+    this.grievanceService.getCategories().subscribe(res => {
+      this.categories.set(res);
+    })
   }
 
   submit() {
@@ -59,7 +59,7 @@ export class LodgeGrievanceComponent implements OnInit {
 
     this.grievanceService.createGrievance(this.form.value)
       .subscribe(() => {
-        alert('Grievance submitted successfully');
+        this.notificationService.success('Grievance submitted successfully');
         this.router.navigate(['/grievances']);
         this.form.reset();
       });

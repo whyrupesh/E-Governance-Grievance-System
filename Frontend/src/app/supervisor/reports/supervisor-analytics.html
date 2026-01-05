@@ -1,0 +1,91 @@
+<div class="analytics-container fade-in">
+    <div class="page-header">
+        <div>
+            <h1>Department Analytics</h1>
+            <p class="subtitle">Supervisor Overview for your Department</p>
+        </div>
+    </div>
+
+    <!-- 1. Status Overview Cards -->
+    <div class="stats-grid">
+        <div class="stat-card glass-panel" *ngFor="let s of statusCounts()">
+            <div class="stat-icon" [ngClass]="s.status.toLowerCase()">
+                <mat-icon>{{ getStatusIcon(s.status) }}</mat-icon>
+            </div>
+            <div class="stat-info">
+                <span class="stat-label">{{ s.status }}</span>
+                <span class="stat-value">{{ s.count }}</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Charts Section -->
+    <div class="charts-grid">
+        <!-- Status Distribution -->
+        <mat-card class="chart-card glass-panel">
+            <mat-card-header>
+                <mat-card-title>Status Distribution</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="chart-container">
+                    <canvas baseChart [data]="pieChartData" [type]="'pie'" [options]="pieChartOptions">
+                    </canvas>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+        <!-- Category Distribution -->
+        <mat-card class="chart-card glass-panel">
+            <mat-card-header>
+                <mat-card-title>Category Distribution</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="chart-container">
+                    <canvas baseChart [data]="doughnutChartData" [type]="'doughnut'" [options]="doughnutChartOptions">
+                    </canvas>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+
+    <!-- 3. Performance Metric (Single Department) -->
+    <div class="performance-section glass-panel">
+        <div class="section-header">
+            <h2>Detailed Department Performance</h2>
+        </div>
+
+        <table mat-table [dataSource]="deptPerformance()" class="mat-elevation-z0 premium-table">
+            <ng-container matColumnDef="department">
+                <th mat-header-cell *matHeaderCellDef> Department </th>
+                <td mat-cell *matCellDef="let element"> {{element.department}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="total">
+                <th mat-header-cell *matHeaderCellDef> Total Grievances </th>
+                <td mat-cell *matCellDef="let element"> {{element.totalGrievances}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="resolved">
+                <th mat-header-cell *matHeaderCellDef> Resolved </th>
+                <td mat-cell *matCellDef="let element">
+                    <span class="badge success">{{element.resolvedGrievances}}</span>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="pending">
+                <th mat-header-cell *matHeaderCellDef> Pending </th>
+                <td mat-cell *matCellDef="let element">
+                    <span class="badge warning">{{element.pendingGrievances}}</span>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="avgTime">
+                <th mat-header-cell *matHeaderCellDef> Avg Resolution (Days) </th>
+                <td mat-cell *matCellDef="let element"> {{element.averageResolutionDays}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="['department', 'total', 'resolved', 'pending', 'avgTime']"></tr>
+            <tr mat-row *matRowDef="let row; columns: ['department', 'total', 'resolved', 'pending', 'avgTime'];"></tr>
+        </table>
+    </div>
+</div>

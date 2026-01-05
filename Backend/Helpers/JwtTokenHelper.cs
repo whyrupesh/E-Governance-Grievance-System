@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using Backend.Models;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Backend.Helpers;
@@ -18,12 +19,18 @@ public class JwtTokenHelper
 
     public string GenerateToken(User user)
     {
-        var claims = new[]
+        var claims = new List<Claim>
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(ClaimTypes.Email, user.Email),
             new Claim(ClaimTypes.Role, user.Role.ToString())
         };
+
+        if (user.DepartmentId.HasValue)
+        {
+            claims.Add(new Claim("DepartmentId", user.DepartmentId.Value.ToString()));
+        }
+
 
         var key = new SymmetricSecurityKey(
             Encoding.UTF8.GetBytes(_config["Jwt:Key"]!)
