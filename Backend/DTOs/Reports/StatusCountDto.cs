@@ -4,6 +4,6 @@ namespace Backend.DTOs.Reports;
 
 public class StatusCountDto
 {
-    public GrievanceStatus Status { get; set; }
+    public string Status { get; set; } = null!;
     public int Count { get; set; }
 }

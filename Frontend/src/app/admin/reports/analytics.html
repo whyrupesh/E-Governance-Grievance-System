@@ -1,4 +1,4 @@
-<div class="analytics-container animate-fade-in">
+<div class="analytics-container animate-fade-in" *ngIf="!loading(); else loader">
 
     <div class="page-header">
         <h2 class="page-title gradient-text">Reports & Analytics</h2>
@@ -7,10 +7,10 @@
 
     <!-- Status Cards -->
     <div class="stats-grid">
-        @for (stat of statusCounts; track stat.status) {
+        @for (stat of statusCounts(); track stat.status) {
         <div class="stat-card glass-panel" [ngClass]="stat.status.toLowerCase()">
-            <div class="stat-icon">
-                <mat-icon>{{ getIcon(stat.status) }}</mat-icon>
+            <div class="stat-icon-wrapper">
+                <mat-icon>{{ getStatusIcon(stat.status) }}</mat-icon>
             </div>
             <div class="stat-info">
                 <span class="stat-value">{{ stat.count }}</span>
@@ -20,10 +20,38 @@
         }
     </div>
 
-    <!-- Department Performance -->
+    <!-- Charts Grid -->
+    <div class="charts-grid">
+        <!-- Status Distribution -->
+        <div class="glass-panel chart-container">
+            <h3>Status Overview</h3>
+            <div class="chart-wrapper">
+                <canvas baseChart [data]="pieChartData" [type]="'pie'" [options]="pieChartOptions"></canvas>
+            </div>
+        </div>
+
+        <!-- Category Distribution -->
+        <div class="glass-panel chart-container">
+            <h3>Grievances by Category</h3>
+            <div class="chart-wrapper">
+                <canvas baseChart [data]="doughnutChartData" [type]="'doughnut'"
+                    [options]="doughnutChartOptions"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Department Performance Chart -->
+    <div class="glass-panel chart-container full-width">
+        <h3>Department Analytics</h3>
+        <div class="chart-wrapper fixed-height">
+            <canvas baseChart [data]="barChartData" [type]="'bar'" [options]="barChartOptions"></canvas>
+        </div>
+    </div>
+
+    <!-- Department Table -->
     <div class="glass-panel performance-section">
         <div class="panel-header">
-            <h3>Department Performance</h3>
+            <h3>Department Performance Details</h3>
         </div>
         <div class="table-container">
             <table class="premium-table">
@@ -37,13 +65,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for (d of deptPerformance; track d.departmentName) {
+                    @for (d of deptPerformance(); track d.department) {
                     <tr>
-                        <td class="dept-name">{{ d.departmentName }}</td>
-                        <td>{{ d.total }}</td>
-                        <td class="text-success">{{ d.resolved }}</td>
-                        <td class="text-warning">{{ d.pending }}</td>
-                        <td>{{ d.avgResolutionTimeDays | number:'1.1-2' }}</td>
+                        <td class="dept-name">
+                            <mat-icon class="mini-icon">business</mat-icon>
+                            {{ d.department }}
+                        </td>
+                        <td><span class="badge total">{{ d.totalGrievances }}</span></td>
+                        <td><span class="badge success">{{ d.resolvedGrievances }}</span></td>
+                        <td><span class="badge warning">{{ d.pendingGrievances }}</span></td>
+                        <td>{{ d.averageResolutionDays | number:'1.1-2' }}</td>
                     </tr>
                     }
                 </tbody>
@@ -52,3 +83,10 @@
     </div>
 
 </div>
+
+<ng-template #loader>
+    <div class="loader-container">
+        <mat-spinner diameter="60"></mat-spinner>
+        <p class="loader-text">Loading analytics data...</p>
+    </div>
+</ng-template>

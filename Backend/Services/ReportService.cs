@@ -21,7 +21,7 @@ public class ReportService : IReportService
             .GroupBy(g => g.Status)
             .Select(g => new StatusCountDto
             {
-                Status = g.Key,
+                Status = g.Key.ToString(),
                 Count = g.Count()
             })
             .ToListAsync();
@@ -41,16 +41,30 @@ public class ReportService : IReportService
             {
                 Department = group.Key,
                 TotalGrievances = group.Count(),
-                ResolvedGrievances = group.Count(),
-
+                ResolvedGrievances = group.Count(g => g.Status == GrievanceStatus.Resolved || g.Status == GrievanceStatus.Closed),
+                PendingGrievances = group.Count(g => g.Status == GrievanceStatus.Submitted || g.Status == GrievanceStatus.Assigned || g.Status == GrievanceStatus.InReview),
                 AverageResolutionDays = Math.Round(
-                    group.Average(g =>
-                        (g.ResolvedAt!.Value - g.CreatedAt).TotalDays
-                    ),
+                    group.Where(g => g.ResolvedAt != null)
+                         .Select(g => (g.ResolvedAt!.Value - g.CreatedAt).TotalDays)
+                         .DefaultIfEmpty(0)
+                         .Average(),
                     2
                 )
             })
             .ToList();
     }
 
+    // 3️⃣ Grievance count by category
+    public async Task<IEnumerable<CategoryCountDto>> GetGrievanceCountByCategoryAsync()
+    {
+        return await _context.Grievances
+            .Include(g => g.Category)
+            .GroupBy(g => g.Category.Name)
+            .Select(g => new CategoryCountDto
+            {
+                Category = g.Key,
+                Count = g.Count()
+            })
+            .ToListAsync();
+    }
 }

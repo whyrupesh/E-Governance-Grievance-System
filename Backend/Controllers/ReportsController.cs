@@ -29,4 +29,10 @@ public class ReportsController : ControllerBase
         var result = await _reportService.GetDepartmentPerformanceAsync();
         return Ok(result);
     }
+    [HttpGet("category-count")]
+    public async Task<IActionResult> CategoryWiseCount()
+    {
+        var result = await _reportService.GetGrievanceCountByCategoryAsync();
+        return Ok(result);
+    }
 }

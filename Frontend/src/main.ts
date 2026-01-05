@@ -5,6 +5,9 @@ import {
   provideHttpClient,
   withInterceptors
 } from '@angular/common/http';
+import { Chart, ArcElement, BarElement, CategoryScale, LinearScale, Tooltip, Legend, PieController, DoughnutController, BarController } from 'chart.js';
+
+Chart.register(ArcElement, BarElement, CategoryScale, LinearScale, Tooltip, Legend, PieController, DoughnutController, BarController);
 
 import { AppComponent } from './app/app';
 import { routes } from './app/app.routes';
@@ -15,7 +18,7 @@ bootstrapApplication(AppComponent, {
     provideRouter(routes),
     provideAnimations(),
     provideHttpClient(
-      withInterceptors([authInterceptor]) 
+      withInterceptors([authInterceptor])
     )
   ]
 }).catch(err => console.error(err));

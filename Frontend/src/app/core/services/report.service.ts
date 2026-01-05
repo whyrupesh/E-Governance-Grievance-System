@@ -8,11 +8,16 @@ export interface StatusCount {
 }
 
 export interface DeptPerformance {
-    departmentName: string;
-    total: number;
-    resolved: number;
-    pending: number;
-    avgResolutionTimeDays: number;
+    department: string;
+    totalGrievances: number;
+    resolvedGrievances: number;
+    pendingGrievances: number;
+    averageResolutionDays: number;
+}
+
+export interface CategoryCount {
+    category: string;
+    count: number;
 }
 
 @Injectable({
@@ -30,5 +35,9 @@ export class ReportService {
 
     getDepartmentPerformance(): Observable<DeptPerformance[]> {
         return this.http.get<DeptPerformance[]>(`${this.API_URL}/department-performance`);
+    }
+
+    getGrievanceCountByCategory(): Observable<CategoryCount[]> {
+        return this.http.get<CategoryCount[]>(`${this.API_URL}/category-count`);
     }
 }

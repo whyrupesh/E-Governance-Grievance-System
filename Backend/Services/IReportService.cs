@@ -6,4 +6,5 @@ public interface IReportService
 {
     Task<IEnumerable<StatusCountDto>> GetGrievanceCountByStatusAsync();
     Task<IEnumerable<DepartmentPerformanceDto>> GetDepartmentPerformanceAsync();
+    Task<IEnumerable<CategoryCountDto>> GetGrievanceCountByCategoryAsync();
 }
