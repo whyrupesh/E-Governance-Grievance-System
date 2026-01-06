@@ -33,7 +33,6 @@ import { Category } from '../../shared/models/admin.model';
     MatPaginatorModule,
     ReactiveFormsModule,
     FormsModule,
-    DatePipe
   ],
   templateUrl: './assigned-grievances.html',
   styleUrls: ['./assigned-grievances.css']
