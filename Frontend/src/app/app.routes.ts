@@ -6,6 +6,14 @@ import { RoleGuard } from './core/guards/role.guard';
 import { MainLayoutComponent } from './layout/main-layout/main-layout';
 
 export const routes: Routes = [
+  // =====================
+  // LANDING PAGE (Priority)
+  // =====================
+  {
+    path: '',
+    loadComponent: () => import('./landing/landing.component').then(m => m.LandingComponent),
+    pathMatch: 'full'
+  },
 
   // =====================
   // PUBLIC ROUTES
@@ -126,6 +134,5 @@ export const routes: Routes = [
   // =====================
   // DEFAULT
   // =====================
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: '**', redirectTo: 'login' }
+  { path: '**', redirectTo: '' }
 ];

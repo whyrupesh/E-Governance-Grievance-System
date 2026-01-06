@@ -1,0 +1,66 @@
+<div class="landing-container">
+    <!-- Navbar Placeholder (if generic navbar isn't used) -->
+    <nav class="glass-nav">
+        <div class="logo">
+            <span class="material-icons">account_balance</span>
+            E-Governance
+        </div>
+        <div class="nav-links">
+            <a routerLink="/login" class="nav-btn login">Login</a>
+            <a routerLink="/register" class="nav-btn register">Register</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-section">
+        <div class="hero-content fade-in-up">
+            <h1 class="gradient-text">Empowering Citizens, <br> Ensuring Accountability</h1>
+            <p class="hero-subtitle">
+                A seamless platform to lodge, track, and resolve public grievances.
+                Bridging the gap between the government and the people.
+            </p>
+            <div class="hero-actions">
+                <a routerLink="/register" class="cta-btn primary">Get Started</a>
+                <a routerLink="/login" class="cta-btn secondary">Portal Login</a>
+            </div>
+        </div>
+        <div class="hero-visual fade-in-right">
+            <!-- Decorative Abstract Shapes/Elements -->
+            <div class="glass-card floating-card card-1">
+                <span class="material-icons">verified_user</span>
+                <span>Secure & Transparent</span>
+            </div>
+            <div class="glass-card floating-card card-2">
+                <span class="material-icons">speed</span>
+                <span>Fast Resolution</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Stats Bar -->
+    <section class="stats-bar glass-panel">
+        <div class="stat-item" *ngFor="let stat of stats">
+            <span class="stat-value">{{ stat.value }}</span>
+            <span class="stat-label">{{ stat.label }}</span>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <h2>Why Choose Our Platform?</h2>
+        <div class="features-grid">
+            <div class="feature-card glass-panel" *ngFor="let feature of features">
+                <div class="feature-icon">
+                    <span class="material-icons">{{ feature.icon }}</span>
+                </div>
+                <h3>{{ feature.title }}</h3>
+                <p>{{ feature.description }}</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="landing-footer">
+        <p>&copy; 2026 E-Governance Grievance Redressal System. All rights reserved.</p>
+    </footer>
+</div>
