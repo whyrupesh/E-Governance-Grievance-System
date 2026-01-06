@@ -25,7 +25,7 @@ public class OfficerService : IOfficerService
             throw new Exception("Officer not assigned to any department");
 
         return await _context.Grievances
-            .Where(g => g.DepartmentId == officer.DepartmentId)
+            .Where(g => g.DepartmentId == officer.DepartmentId && g.Status != GrievanceStatus.Submitted)
             .Include(g => g.Category)
             .Select(g => new GrievanceResponseDto
             {

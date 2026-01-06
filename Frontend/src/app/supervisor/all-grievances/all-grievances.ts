@@ -31,7 +31,7 @@ export class SupervisorGrievancesComponent implements OnInit {
 
   /* ✅ FILTERS AS SIGNAL */
   filters = signal({
-    category: '',
+    escalated: '',
     department: '',
     status: ''
   });
@@ -61,9 +61,7 @@ export class SupervisorGrievancesComponent implements OnInit {
 
   /* ---------- Filter Options ---------- */
 
-  categories = computed(() =>
-    [...new Set(this.grievances().map(g => g.category))]
-  );
+  // Removed categories since we filter by escalation now
 
   departments = computed(() =>
     [...new Set(this.grievances().map(g => g.department))]
@@ -75,10 +73,10 @@ export class SupervisorGrievancesComponent implements OnInit {
 
   /* ---------- FILTER + SORT ---------- */
 
-  updateCategory(value: string) {
+  updateEscalated(value: string) {
     this.filters.set({
       ...this.filters(),
-      category: value
+      escalated: value
     });
   }
 
@@ -102,13 +100,14 @@ export class SupervisorGrievancesComponent implements OnInit {
 
 
   filteredGrievances = computed(() => {
-    const { category, department, status } = this.filters();
+    const { escalated, department, status } = this.filters();
     const order = this.sortOrder();
 
     let data = [...this.grievances()];
 
-    if (category) {
-      data = data.filter(g => g.category === category);
+    if (escalated) {
+      const isEscalated = escalated === 'true';
+      data = data.filter(g => g.isEscalated === isEscalated);
     }
 
     if (department) {
@@ -130,7 +129,7 @@ export class SupervisorGrievancesComponent implements OnInit {
 
   resetFilters() {
     this.filters.set({
-      category: '',
+      escalated: '',
       department: '',
       status: ''
     });

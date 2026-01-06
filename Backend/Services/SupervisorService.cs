@@ -131,6 +131,9 @@ public class SupervisorService : ISupervisorService
 
         grievance.Status = newStatus;
 
+        if(newStatus == GrievanceStatus.Closed)
+            grievance.IsEscalated = false;
+
         if (newStatus == GrievanceStatus.Resolved)
             grievance.ResolvedAt = DateTime.UtcNow;
 

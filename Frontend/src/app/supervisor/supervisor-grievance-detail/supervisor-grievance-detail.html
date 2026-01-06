@@ -142,15 +142,16 @@
     </mat-card>
 
     <!-- ESCALATION CARD -->
-    <mat-card class="escalate-card" [class.active]="grievance()!.isEscalated">
-      <div class="escalate-label">
-        <strong>Escalation Status</strong>
-        <span>{{ grievance()!.isEscalated ? 'Escalated' : 'Normal Priority' }}</span>
-      </div>
-      <mat-slide-toggle color="warn" [checked]="grievance()!.isEscalated" [disabled]="grievance()!.status === 'Closed'"
-        (change)="onEscalateToggle()">
-      </mat-slide-toggle>
-    </mat-card>
+
+    <!-- <mat-card class=" escalate-card" [class.active]="grievance()!.isEscalated">
+          <div class="escalate-label">
+            <strong>Escalation Status</strong>
+            <span>{{ grievance()!.isEscalated ? 'Escalated' : 'Normal Priority' }}</span>
+          </div>
+          <mat-slide-toggle color="warn" [checked]="grievance()!.isEscalated"
+            [disabled]="grievance()!.status === 'Closed'" (change)="onEscalateToggle()">
+          </mat-slide-toggle>
+    </mat-card> -->
 
   </div>
 

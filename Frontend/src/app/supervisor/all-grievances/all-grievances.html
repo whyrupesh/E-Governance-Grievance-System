@@ -28,12 +28,11 @@
     <!-- Filters -->
     <div class="filter-card">
         <div class="filter-group">
-            <label>Category</label>
-            <select [ngModel]="filters().category" (ngModelChange)="updateCategory($event)">
+            <label>Escalated</label>
+            <select [ngModel]="filters().escalated" (ngModelChange)="updateEscalated($event)">
                 <option value="">All</option>
-                @for (c of categories(); track c) {
-                <option [value]="c">{{ c }}</option>
-                }
+                <option value="true">Escalated Only</option>
+                <option value="false">Normal Priority</option>
             </select>
         </div>
 
@@ -73,7 +72,7 @@
             <thead>
                 <tr>
                     <th>Grievance #</th>
-                    <th>Category</th>
+                    <th>Escalated</th>
                     <th>Department</th>
                     <th>Status</th>
                     <th>Created</th>
@@ -85,7 +84,16 @@
                 @for (g of paginatedGrievances(); track g.grievanceNumber) {
                 <tr>
                     <td class="mono">{{ g.grievanceNumber }}</td>
-                    <td>{{ g.category }}</td>
+                    <td>
+                        @if (g.isEscalated) {
+                        <div class="escalated-badge" style="display: flex; align-items: center;">
+                            <mat-icon class="alert-icon" style="color: red;">warning</mat-icon>
+                            <span>Escalated</span>
+                        </div>
+                        } @else {
+                        <span class="text-neutral">No</span>
+                        }
+                    </td>
                     <td>{{ g.department }}</td>
 
                     <td>
