@@ -10,7 +10,7 @@ export class GrievanceService {
 
   private readonly API_URL = 'http://localhost:5280/api/grievances';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   createGrievance(data: CreateGrievanceRequest) {
     return this.http.post(this.API_URL, data);
@@ -25,7 +25,7 @@ export class GrievanceService {
   }
 
 
-  getCategories(){
+  getCategories() {
     return this.http.get<Category[]>(`${this.API_URL}/categories`);
   }
 
@@ -34,4 +34,15 @@ export class GrievanceService {
   }
 
 
+  addFeedback(id: number, data: any) {
+    return this.http.post(`${this.API_URL}/${id}/feedback`, data);
+  }
+
+  reopenGrievance(id: number) {
+    return this.http.post(`${this.API_URL}/${id}/reopen`, {});
+  }
+
+  escalateGrievance(id: number) {
+    return this.http.post(`${this.API_URL}/${id}/escalate`, {});
+  }
 }

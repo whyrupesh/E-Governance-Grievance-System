@@ -14,18 +14,20 @@ public class GrievanceResponseDto
     public string Status { get; set; } = "";
     public DateTime CreatedAt { get; set; }
 
-    public string Description {get; set;} = "";
+    public string Description { get; set; } = "";
 
     public DateTime? ResolvedAt { get; set; }
 
     public string ResolutionRemarks { get; set; } = "";
 
-    public string AssignedTo { get; set; } = ""; 
+    public string AssignedTo { get; set; } = "";
     public string Feedback { get; set; } = "";
-    
+    public int? Rating { get; set; }
+    public DateTime? ReopenedAt { get; set; }
+
     public bool IsEscalated { get; set; }
 
-    public DateTime? EscalatedAt {get; set;}
+    public DateTime? EscalatedAt { get; set; }
 
 
 }

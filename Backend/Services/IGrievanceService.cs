@@ -10,4 +10,8 @@ public interface IGrievanceService
     Task<GrievanceResponseDto?> GetMyGrievanceByIdAsync(int grievanceId, int citizenId);
     Task<object> DeleteMyGrievanceAsync(int grievanceId, int citizenId);
     Task<IEnumerable<CategoryResponseDto>> GetAllCategories();
+
+    Task AddFeedbackAsync(int grievanceId, int citizenId, AddFeedbackDto dto);
+    Task ReopenGrievanceAsync(int grievanceId, int citizenId);
+    Task EscalateGrievanceAsync(int grievanceId, int citizenId);
 }

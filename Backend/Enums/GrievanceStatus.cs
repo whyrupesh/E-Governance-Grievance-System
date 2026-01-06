@@ -6,6 +6,6 @@ public enum GrievanceStatus
     Assigned = 2,
     InReview = 3,
     Resolved = 4,
-    Closed = 5
-
+    Closed = 5,
+    Reopened = 6
 }

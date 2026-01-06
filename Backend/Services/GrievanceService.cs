@@ -160,4 +160,112 @@ public class GrievanceService : IGrievanceService
             // DepartmentId = g.DepartmentId
         }).ToListAsync();
     }
+
+    public async Task AddFeedbackAsync(int grievanceId, int citizenId, AddFeedbackDto dto)
+    {
+        var grievance = await _context.Grievances
+            .FirstOrDefaultAsync(g => g.Id == grievanceId && g.CitizenId == citizenId);
+
+        if (grievance == null)
+            throw new Exception("Grievance not found");
+
+        if (grievance.Status != GrievanceStatus.Closed)
+            throw new Exception("Feedback can only be provided for Closed grievances");
+
+        grievance.Feedback = dto.Feedback ?? "";
+        grievance.Rating = dto.Rating;
+
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task ReopenGrievanceAsync(int grievanceId, int citizenId)
+    {
+        var grievance = await _context.Grievances
+             .Include(g => g.Category)
+            .FirstOrDefaultAsync(g => g.Id == grievanceId && g.CitizenId == citizenId);
+
+        if (grievance == null)
+            throw new Exception("Grievance not found");
+
+        if (grievance.Status != GrievanceStatus.Resolved)
+            throw new Exception("Only resolved grievances can be reopened");
+
+        if (grievance.ResolvedAt == null || (DateTime.UtcNow - grievance.ResolvedAt.Value).TotalDays > 7)
+            throw new Exception("Grievance cannot be reopened after 7 days of resolution");
+
+        grievance.Status = GrievanceStatus.Reopened;
+        grievance.ReopenedAt = DateTime.UtcNow;
+        // grievance.ResolutionRemarks += "\n[Reopened]: User is not satisfied."; 
+
+        await _context.SaveChangesAsync();
+
+        // Notify Supervisors
+        var supervisors = await _context.Users
+           .Where(u => u.Role == UserRole.Supervisor)
+           .ToListAsync();
+
+        foreach (var supervisor in supervisors)
+        {
+            await _notificationService.CreateNotificationAsync(
+               supervisor.Id,
+               $"Grievance #{grievance.GrievanceNumber} has been reopened by citizen.",
+               grievance.Id
+           );
+        }
+
+        // Notify Officers
+        var officers = await _context.Users
+            .Where(u => u.Role == UserRole.Officer && u.DepartmentId == grievance.DepartmentId)
+            .ToListAsync();
+
+        foreach (var officer in officers)
+        {
+            await _notificationService.CreateNotificationAsync(
+               officer.Id,
+               $"Grievance #{grievance.GrievanceNumber} has been reopened.",
+               grievance.Id
+           );
+        }
+    }
+    public async Task EscalateGrievanceAsync(int grievanceId, int citizenId)
+    {
+        var grievance = await _context.Grievances
+            .FirstOrDefaultAsync(g => g.Id == grievanceId && g.CitizenId == citizenId);
+
+        if (grievance == null)
+            throw new Exception("Grievance not found");
+
+        if (grievance.Status == GrievanceStatus.Resolved || grievance.Status == GrievanceStatus.Closed)
+            throw new Exception("Cannot change escalation status of a resolved or closed grievance.");
+
+        if (grievance.IsEscalated)
+        {
+            // De-escalate
+            grievance.IsEscalated = false;
+            // Optionally clear EscalatedAt or keep the last escalation time? Keeping it simple for now and just toggling flag.
+            // Or maybe update it? Let's leave EscalatedAt as the time it was LAST escalated.
+        }
+        else
+        {
+            // Escalate
+            grievance.IsEscalated = true;
+            grievance.EscalatedAt = DateTime.UtcNow;
+
+            // Notify Supervisors only on Escalation
+            var supervisors = await _context.Users
+               .Where(u => u.Role == UserRole.Supervisor)
+               .ToListAsync();
+
+            foreach (var supervisor in supervisors)
+            {
+                await _notificationService.CreateNotificationAsync(
+                   supervisor.Id,
+                   $"Grievance #{grievance.GrievanceNumber} has been ESCALATED by the citizen.",
+                   grievance.Id
+               );
+            }
+        }
+
+        await _context.SaveChangesAsync();
+    }
 }

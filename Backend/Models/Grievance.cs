@@ -29,8 +29,11 @@ public class Grievance
 
     public string AssignedTo { get; set; } = null!;
     public string Feedback { get; set; } = null!;
+    public int? Rating { get; set; }
 
     // Escalation
     public bool IsEscalated { get; set; } = false;
     public DateTime? EscalatedAt { get; set; }
+
+    public DateTime? ReopenedAt { get; set; }
 }

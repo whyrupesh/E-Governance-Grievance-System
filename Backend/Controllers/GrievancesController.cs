@@ -80,5 +80,29 @@ namespace Backend.Controllers
 
             return Ok(result);
         }
+
+        [HttpPost("{id}/feedback")]
+        public async Task<IActionResult> AddFeedback(int id, AddFeedbackDto dto)
+        {
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            await _grievanceService.AddFeedbackAsync(id, userId, dto);
+            return Ok(new { message = "Feedback submitted successfully" });
+        }
+
+        [HttpPost("{id}/reopen")]
+        public async Task<IActionResult> ReopenGrievance(int id)
+        {
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            await _grievanceService.ReopenGrievanceAsync(id, userId);
+            return Ok(new { message = "Grievance reopened successfully" });
+        }
+
+        [HttpPost("{id}/escalate")]
+        public async Task<IActionResult> EscalateGrievance(int id)
+        {
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            await _grievanceService.EscalateGrievanceAsync(id, userId);
+            return Ok(new { message = "Grievance escalated successfully" });
+        }
     }
 }

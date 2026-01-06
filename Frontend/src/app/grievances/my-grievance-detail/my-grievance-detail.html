@@ -1,76 +1,138 @@
 @if (loading) {
-  <div class="loading-box">
-    <mat-icon class="spin">autorenew</mat-icon>
-    <p>Loading grievance...</p>
-  </div>
+<div class="loading-box">
+  <mat-icon class="spin">autorenew</mat-icon>
+  <p>Loading grievance...</p>
+</div>
 }
 
 @if (grievance()) {
-  <div class="detail-container fade-in">
+<div class="detail-container fade-in">
 
-    <h2 class="title">
-      Grievance #{{ grievance()!.grievanceNumber }}
-    </h2>
+  <h2 class="title">
+    Grievance #{{ grievance()!.grievanceNumber }}
+  </h2>
 
-    <mat-card class="info-card">
-      <div class="info-grid">
-        <div><strong>Category</strong><span>{{ grievance()!.category }}</span></div>
-        <div><strong>Department</strong><span>{{ grievance()!.department }}</span></div>
-        <div><strong>Status</strong><span class="badge">{{ grievance()!.status }}</span></div>
-        <div><strong>Submitted</strong><span>{{ grievance()!.createdAt | date:'medium' }}</span></div>
+  <mat-card class="info-card">
+    <div class="info-grid">
+      <div><strong>Category</strong><span>{{ grievance()!.category }}</span></div>
+      <div><strong>Department</strong><span>{{ grievance()!.department }}</span></div>
+      <div>
+        <strong>Status</strong>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <span class="badge">{{ grievance()!.status }}</span>
+          @if (grievance()!.isEscalated) {
+          <span class="badge" style="background: #ffebee; color: #c62828;">Escalated</span>
+          }
+        </div>
       </div>
-
-      <div class="description">
-        <strong>Description</strong>
-        <p>{{ grievance()!.description }}</p>
-      </div>
-
-      <div class="actions">
-        @if (grievance()!.status === 'Submitted' || grievance()!.status === 'Assigned') {
-          <button mat-stroked-button style="display: flex; align-items: center; color: rgb(197, 0, 0);" color="warn" (click)="deleteGrievance()">
-            <mat-icon>delete</mat-icon>
-            Delete Grievance
-          </button>
-        }
-      </div>
-    </mat-card>
-
-    <!-- Timeline -->
-    <div class="timeline-wrapper">
-      <div class="timeline-line"></div>
-
-      <div class="timeline-step" [class.active]="isReached('Submitted')">
-        <div class="dot"></div>
-        <span>Submitted</span>
-      </div>
-
-      <div class="timeline-step" [class.active]="isReached('Assigned')">
-        <div class="dot"></div>
-        <span>Assigned</span>
-      </div>
-
-      <div class="timeline-step" [class.active]="isReached('InReview')">
-        <div class="dot"></div>
-        <span>In Review</span>
-      </div>
-
-      <div class="timeline-step" [class.active]="isReached('Resolved')">
-        <div class="dot"></div>
-        <span>Resolved</span>
-      </div>
-
-      <div class="timeline-step" [class.active]="isReached('Closed')">
-        <div class="dot"></div>
-        <span>Closed</span>
-      </div>
+      <div><strong>Submitted</strong><span>{{ grievance()!.createdAt | date:'medium' }}</span></div>
     </div>
 
-    @if (grievance()!.resolutionRemarks) {
-      <mat-card class="resolution-card">
-        <h3>Resolution Remarks</h3>
-        <p>{{ grievance()!.resolutionRemarks }}</p>
+    <div class="description">
+      <strong>Description</strong>
+      <p>{{ grievance()!.description }}</p>
+    </div>
+
+    <div class="actions">
+      @if (grievance()!.status === 'Submitted' || grievance()!.status === 'Assigned') {
+      <button mat-stroked-button style="display: flex; align-items: center; color: rgb(197, 0, 0);" color="warn"
+        (click)="deleteGrievance()">
+        <mat-icon>delete</mat-icon>
+        Delete Grievance
+      </button>
+      }
+
+      @if (canToggleEscalation()) {
+      <!-- ESCALATION CARD -->
+      <mat-card class="escalate-card" [class.active]="grievance()!.isEscalated">
+        <div class="escalate-label">
+          <strong>Escalation Status</strong>
+          <span>{{ grievance()!.isEscalated ? 'Escalated' : 'Normal Priority' }}</span>
+        </div>
+        <mat-slide-toggle color="warn" [checked]="grievance()!.isEscalated"
+          [disabled]="grievance()!.status === 'Closed' || loading" (change)="toggleEscalation()">
+        </mat-slide-toggle>
       </mat-card>
+      }
+    </div>
+  </mat-card>
+
+  <!-- Timeline -->
+  <div class="timeline-wrapper">
+    <div class="timeline-line"></div>
+
+    <div class="timeline-step" [class.active]="isReached('Submitted')">
+      <div class="dot"></div>
+      <span>Submitted</span>
+    </div>
+
+    <div class="timeline-step" [class.active]="isReached('Assigned')">
+      <div class="dot"></div>
+      <span>Assigned</span>
+    </div>
+
+    <div class="timeline-step" [class.active]="isReached('InReview')">
+      <div class="dot"></div>
+      <span>In Review</span>
+    </div>
+
+    <div class="timeline-step" [class.active]="isReached('Resolved')">
+      <div class="dot"></div>
+      <span>Resolved</span>
+    </div>
+
+    <div class="timeline-step" [class.active]="isReached('Closed')">
+      <div class="dot"></div>
+      <span>Closed</span>
+    </div>
+  </div>
+
+  @if (grievance()!.resolutionRemarks || grievance()!.resolvedAt) {
+  <mat-card class="resolution-card">
+    <h3>Resolution Details</h3>
+    @if (grievance()!.resolutionRemarks) {
+    <p><strong>Remarks:</strong> {{ grievance()!.resolutionRemarks }}</p>
+    }
+    @if (grievance()!.resolvedAt) {
+    <p class="resolved-date"><strong>Resolved on:</strong> {{ grievance()!.resolvedAt | date:'medium'}}</p>
     }
 
-  </div>
+    @if (grievance()!.status === 'Closed') {
+    <mat-divider></mat-divider>
+
+    <!-- Feedback Section -->
+    <div class="feedback-section">
+      <h4>Rate Resolution</h4>
+      @if (grievance()!.rating) {
+      <div class="existing-rating">
+        <mat-icon *ngFor="let star of [1,2,3,4,5]" [class.filled]="star <= grievance()!.rating!"
+          class="star-icon">star</mat-icon>
+        <p *ngIf="grievance()!.feedback">"{{ grievance()!.feedback }}"</p>
+      </div>
+      } @else {
+      <div class="rating-input">
+        <mat-icon *ngFor="let star of [1,2,3,4,5]" (click)="setRating(star)" [class.filled]="star <= rating"
+          class="star-icon clickable">star</mat-icon>
+      </div>
+      <mat-form-field appearance="outline" class="feedback-input">
+        <mat-label>Additional Feedback (Optional)</mat-label>
+        <textarea matInput [(ngModel)]="feedbackText" placeholder="Was the resolution helpful?"></textarea>
+      </mat-form-field>
+      <button mat-raised-button color="primary" (click)="submitFeedback()" [disabled]="rating === 0">Submit
+        Feedback</button>
+      }
+    </div>
+
+    <!-- Reopen Section -->
+    @if (canReopen()) {
+    <div class="reopen-section">
+      <p>Not satisfied with the resolution?</p>
+      <button mat-stroked-button color="warn" (click)="reopen()">Reopen Grievance</button>
+    </div>
+    }
+    }
+  </mat-card>
+  }
+
+</div>
 }

@@ -4,8 +4,15 @@
 }
 
 @keyframes fade {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Loading */
@@ -24,7 +31,9 @@
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Layout */
@@ -117,7 +126,7 @@
 /* ACTIVE */
 .timeline-step.active .dot {
   background: #1976d2;
-  box-shadow: 0 0 0 3px rgba(25,118,210,.3);
+  box-shadow: 0 0 0 3px rgba(25, 118, 210, .3);
 }
 
 .timeline-step.active span {
@@ -130,4 +139,90 @@
   background: #f1f8e9;
   border-left: 5px solid #689f38;
   padding: 16px;
+}
+
+/* Feedback */
+.feedback-section {
+  margin-top: 16px;
+}
+
+.rating-input {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.star-icon {
+  font-size: 24px;
+  color: #bdbdbd;
+  transition: color 0.2s;
+}
+
+.star-icon.filled {
+  color: #ffca28;
+}
+
+.star-icon.clickable {
+  cursor: pointer;
+}
+
+.star-icon.clickable:hover {
+  transform: scale(1.1);
+}
+
+.feedback-input {
+  width: 100%;
+  margin-top: 8px;
+}
+
+/* Reopen */
+.reopen-section {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px dashed #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Escalation Card */
+.escalate-card {
+  margin-top: 16px;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px !important;
+  border: 1px solid #e0e0e0;
+  box-shadow: none !important;
+  transition: all 0.3s ease;
+}
+
+.escalate-card.active {
+  background-color: #ffebee;
+  border-color: #ef9a9a;
+}
+
+.escalate-label {
+  display: flex;
+  flex-direction: column;
+}
+
+.escalate-label strong {
+  font-size: 1rem;
+  color: #333;
+}
+
+.escalate-label span {
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 4px;
+}
+
+.escalate-card.active .escalate-label strong {
+  color: #c62828;
+}
+
+.escalate-card.active .escalate-label span {
+  color: #d32f2f;
 }
