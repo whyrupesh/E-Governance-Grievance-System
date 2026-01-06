@@ -95,6 +95,24 @@ The frontend provides the user interface for Citizens, Officers, Supervisors, an
 
 ---
 
+## 🔐 Some Credentials
+
+To get started with the application, you can use the following default credentials (provided seed data is applied):
+
+### Admin
+- **Email**: `admin@gov.in`
+- **Password**: `Admin@123`
+
+### Supervisor
+- **Email**: `supervisor@gov.in`
+- **Password**: `Supervisor@123`
+
+> **Note**: 
+> - **Officers** and additional **Supervisors** can be created via the **Admin Dashboard**.
+> - **Citizens** can register themselves via the public **Registration Page**.
+
+---
+
 ## 🌟 Key Features
 
 ### 👤 Citizen Module
