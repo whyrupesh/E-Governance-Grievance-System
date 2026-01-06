@@ -107,6 +107,12 @@ export const routes: Routes = [
                 .then(m => m.OfficersComponent)
           },
           {
+            path: 'supervisors',
+            loadComponent: () =>
+              import('./admin/supervisors/supervisors')
+                .then(m => m.SupervisorsComponent)
+          },
+          {
             path: 'reports',
             loadComponent: () =>
               import('./admin/reports/analytics')

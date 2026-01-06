@@ -19,3 +19,10 @@ export interface Officer {
   department: string;
   departmentId: number;
 }
+
+export interface Supervisor {
+  id: number;
+  name: string;
+  email: string;
+  role: string;
+}

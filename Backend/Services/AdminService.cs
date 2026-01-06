@@ -113,4 +113,46 @@ public class AdminService : IAdminService
         _context.Users.Remove(officer);
         await _context.SaveChangesAsync();
     }
+
+    public async Task<IEnumerable<SupervisorResponseDto>> GetSupervisorsAsync()
+    {
+        return await _context.Users
+            .Where(u => u.Role == UserRole.Supervisor)
+            .Select(u => new SupervisorResponseDto
+            {
+                Id = u.Id,
+                Name = u.FullName,
+                Email = u.Email,
+                Role = u.Role.ToString()
+            })
+            .ToListAsync();
+    }
+
+    public async Task CreateSupervisorAsync(CreateSupervisorDto dto)
+    {
+        if (await _context.Users.AnyAsync(u => u.Email == dto.Email))
+            throw new Exception("Supervisor already exists");
+
+        _context.Users.Add(new User
+        {
+            FullName = dto.FullName,
+            Email = dto.Email,
+            PasswordHash = PasswordHasher.Hash(dto.Password),
+            Role = UserRole.Supervisor
+        });
+
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task DeleteSupervisorAsync(int id)
+    {
+        var supervisor = await _context.Users
+           .FirstOrDefaultAsync(u => u.Id == id && u.Role == UserRole.Supervisor);
+
+        if (supervisor == null)
+            throw new Exception("Supervisor not found");
+
+        _context.Users.Remove(supervisor);
+        await _context.SaveChangesAsync();
+    }
 }

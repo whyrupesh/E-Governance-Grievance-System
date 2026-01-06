@@ -42,4 +42,17 @@ export class AdminService {
   deleteOfficer(id: number) {
     return this.http.delete(`${this.API_URL}/officers/${id}`);
   }
+
+  // Supervisors
+  getSupervisors() {
+    return this.http.get<any[]>(`${this.API_URL}/supervisors`);
+  }
+
+  createSupervisor(data: any) {
+    return this.http.post(`${this.API_URL}/supervisors`, data);
+  }
+
+  deleteSupervisor(id: number) {
+    return this.http.delete(`${this.API_URL}/supervisors/${id}`);
+  }
 }

@@ -14,4 +14,8 @@ public interface IAdminService
     Task<IEnumerable<OfficerResponseDto>> GetOfficersAsync();
     Task CreateOfficerAsync(CreateOfficerDto dto);
     Task DeleteOfficerAsync(int id);
+
+    Task<IEnumerable<SupervisorResponseDto>> GetSupervisorsAsync();
+    Task CreateSupervisorAsync(CreateSupervisorDto dto);
+    Task DeleteSupervisorAsync(int id);
 }

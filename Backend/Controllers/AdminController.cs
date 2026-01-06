@@ -65,4 +65,25 @@ public class AdminController : ControllerBase
         await _adminService.DeleteOfficerAsync(id);
         return NoContent();
     }
+
+    [HttpGet("supervisors")]
+    public async Task<IActionResult> GetSupervisors()
+    {
+        var result = await _adminService.GetSupervisorsAsync();
+        return Ok(result);
+    }
+
+    [HttpPost("supervisors")]
+    public async Task<IActionResult> CreateSupervisor(CreateSupervisorDto dto)
+    {
+        await _adminService.CreateSupervisorAsync(dto);
+        return Ok();
+    }
+
+    [HttpDelete("supervisors/{id}")]
+    public async Task<IActionResult> DeleteSupervisor(int id)
+    {
+        await _adminService.DeleteSupervisorAsync(id);
+        return NoContent();
+    }
 }
