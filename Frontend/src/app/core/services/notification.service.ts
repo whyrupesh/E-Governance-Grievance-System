@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpClient } from '@angular/common/http';
+import { tap } from 'rxjs/operators';
 import { Notification } from '../../shared/models/notification.model';
 
 @Injectable({
@@ -17,16 +18,38 @@ export class NotificationService {
 
     // --- Backend API Methods ---
 
+    unreadCount = signal(0);
+
     getMyNotifications() {
-        return this.http.get<Notification[]>(`${this.API_URL}/my`);
+        return this.http.get<Notification[]>(`${this.API_URL}/my`).pipe(
+            tap(notifications => {
+                this.updateUnreadCount(notifications);
+            })
+        );
+    }
+
+    refreshUnreadCount() {
+        this.getMyNotifications().subscribe();
+    }
+
+    private updateUnreadCount(notifications: Notification[]) {
+        const count = notifications.filter(n => !n.isRead).length;
+        this.unreadCount.set(count);
     }
 
     markAsRead(id: number) {
-        return this.http.put(`${this.API_URL}/${id}/read`, {});
+        return this.http.put(`${this.API_URL}/${id}/read`, {}).pipe(
+            tap(() => {
+                // Optimistic update or refresh
+                this.unreadCount.update(c => Math.max(0, c - 1));
+            })
+        );
     }
 
     markAllAsRead() {
-        return this.http.put(`${this.API_URL}/read-all`, {});
+        return this.http.put(`${this.API_URL}/read-all`, {}).pipe(
+            tap(() => this.unreadCount.set(0))
+        );
     }
 
     // --- Existing SnackBar Methods ---

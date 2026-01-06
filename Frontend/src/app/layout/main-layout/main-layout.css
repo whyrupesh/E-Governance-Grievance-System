@@ -80,7 +80,7 @@
   color: black;
 }
 
-.active-link .mdc-list-item__primary-text{
+.active-link .mdc-list-item__primary-text {
   color: white;
 }
 
@@ -129,7 +129,7 @@ mat-nav-list a[mat-list-item] mat-icon {
 }
 
 .logout-btn {
-  color:white;
+  color: white;
   background-color: red;
 }
 
@@ -146,4 +146,21 @@ mat-nav-list a[mat-list-item] mat-icon {
 
 .spacer {
   flex: 1 1 auto;
+}
+
+.notification-link span[matListItemTitle] {
+  display: flex;
+  align-items: center;
+
+}
+
+.unread-dot {
+  width: 10px;
+  height: 10px;
+  background-color: #4caf50;
+  /* Green as requested */
+  border-radius: 50%;
+  display: inline-block;
+  margin-left: 2px;
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
 }

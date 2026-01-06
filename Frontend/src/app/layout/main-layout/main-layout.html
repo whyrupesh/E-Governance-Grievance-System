@@ -19,12 +19,20 @@
 
     <mat-nav-list>
       <!-- Common -->
-      <a mat-list-item routerLink="/notifications" routerLinkActive="active-link">
+      @if(getRoleDisplay() !== 'Admin') {
+      <a mat-list-item routerLink="/notifications" routerLinkActive="active-link" class="notification-link">
         <mat-icon matListItemIcon>notifications</mat-icon>
-        <span matListItemTitle>Notifications</span>
+        <span matListItemTitle>
+          Notifications
+          @if (notificationService.unreadCount() > 0) {
+          <span class="unread-dot"></span>
+          }
+        </span>
       </a>
-
       <mat-divider style="margin: 8px 0;"></mat-divider>
+
+      }
+
 
       <!-- Citizen -->
       @if (authService.hasRole('Citizen')) {

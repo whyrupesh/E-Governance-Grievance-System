@@ -8,6 +8,9 @@ import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from '../../core/services/auth.service';
 
+import { NotificationService } from '../../core/services/notification.service';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-main-layout',
   standalone: true,
@@ -27,8 +30,18 @@ import { AuthService } from '../../core/services/auth.service';
 export class MainLayoutComponent {
   currentUser: any;
 
-  constructor(public authService: AuthService) {
+  constructor(
+    public authService: AuthService,
+    private router: Router,
+    public notificationService: NotificationService
+  ) {
     this.currentUser = this.authService.getUser();
+  }
+
+  ngOnInit() {
+    if (this.currentUser) {
+      this.notificationService.refreshUnreadCount();
+    }
   }
 
   getRoleDisplay(): string {
@@ -37,5 +50,6 @@ export class MainLayoutComponent {
 
   logout() {
     this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }
